@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.layout.Pane?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720" prefWidth="1280" styleClass="body" stylesheets="@gameboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lasschko.pocketimperium.pocketimperium.view.GameBoardView">
+    <BorderPane prefHeight="200.0" prefWidth="200.0">
+        <left>
+            <VBox styleClass="vbox-stats-container" prefHeight="720.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+                <VBox styleClass="stats-container" alignment="TOP_CENTER" prefHeight="720.0" prefWidth="250.0">
+                    <Text styleClass="game-title" text="Déroulement de la partie" textAlignment="CENTER">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Text>
+                </VBox>
+            </VBox>
+        </left>
+        <center>
+            <Pane fx:id="rootLayout" />
+        </center>
+        <right>
+            <VBox styleClass="vbox-stats-container" prefHeight="720.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+                <VBox styleClass="stats-container" alignment="TOP_CENTER" prefHeight="260.0" prefWidth="250.0">
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                    </padding>
+                    <Text styleClass="game-title" text="Statistiques de la partie" textAlignment="CENTER">
+                        <font>
+                            <Font name="System Bold" size="18.0"/>
+                        </font>
+                    </Text>
+                </VBox>
+            </VBox>
+        </right>
+    </BorderPane>
+    <Rectangle fx:id="fadeRectangle" disable="true" fill="#020a12" opacity="1" width="1280" height="720" />
+</StackPane>

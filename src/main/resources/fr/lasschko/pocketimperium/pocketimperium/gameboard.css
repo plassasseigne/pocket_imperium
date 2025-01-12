@@ -1,0 +1,24 @@
+.body {
+    -fx-background-image: url("../../../../img/space_background.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: cover;
+}
+
+.vbox-stats-container {
+    -fx-padding: 20;
+}
+
+.stats-container {
+    -fx-background-color: linear-gradient(#063057, #020A12, #020A12, #063057);
+    -fx-padding: 20;
+    -fx-border-width: 3;
+    -fx-border-radius: 6;
+    -fx-border-color: #48ABFE;
+    -fx-effect: dropshadow(gaussian, rgb(72, 171, 254), 20, 0.5, 0, 0);
+    -fx-background-radius: 7;
+}
+
+.game-title {
+    -fx-fill: #48ABFE;
+}
