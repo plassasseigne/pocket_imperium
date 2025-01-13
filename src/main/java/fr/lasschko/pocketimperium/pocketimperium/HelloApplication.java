@@ -10,9 +10,13 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("gameBoard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("view/main-menu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
-        stage.setTitle("Pocket Imperium!");
+
+        scene.getStylesheets().add(getClass().getResource("style/font.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("style/button.css").toExternalForm());
+
+        stage.setTitle("Pocket Imperium");
         stage.setScene(scene);
         stage.show();
     }

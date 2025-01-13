@@ -1,0 +1,33 @@
+.button {
+    -fx-font-family: "a Atmospheric";
+    -fx-font-size: 15;
+    -fx-padding: 15 0 15 0;
+    -fx-pref-width: 200;
+    -fx-min-width: 200;
+    -fx-border-radius: 10;
+    -fx-background-radius: 11;
+    -fx-border-width: 2;
+    -fx-cursor: hand;
+}
+
+.main-button {
+    -fx-text-fill: #7BE0F4;
+    -fx-border-color: #7BE0F4;
+    -fx-background-color: linear-gradient(to bottom, #03121F, #0D3B66);
+}
+
+.main-button:hover {
+    -fx-text-fill: #00DBB0;
+    -fx-border-color: #00DBB0;
+    -fx-background-color: linear-gradient(to bottom, #03251E, #007F66);
+}
+
+.second-button {
+    -fx-text-fill: #FFE490;
+    -fx-border-color: #FFE490;
+    -fx-background-color: linear-gradient(to bottom, #271D04, #77590B);
+}
+
+.second-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #4F3A06, #B08924);
+}
