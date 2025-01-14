@@ -21,6 +21,9 @@ public class Game {
     private GameMap gameMap;
     private List<Player> players = new ArrayList<>();
     private int currentPlayerIndex = 0;
+    private int round = 0;
+    private int turn = 0;
+    private int phase = 0;
 
 
     public Game() {
@@ -56,11 +59,34 @@ public class Game {
     }
 
     public void changeCurrentPlayerIndex(int by) {
-        setCurrentPlayerIndex(getCurrentPlayerIndex() +by);
+        setCurrentPlayerIndex(getCurrentPlayerIndex() + by);
     }
 
     public Player getCurrentPlayer() {
         return players.get(currentPlayerIndex);
     }
 
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    public int getPhase() {
+        return phase;
+    }
+
+    public void setPhase(int phase) {
+        this.phase = phase;
+    }
 }

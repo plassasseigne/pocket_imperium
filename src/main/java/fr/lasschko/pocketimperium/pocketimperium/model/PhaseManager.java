@@ -2,36 +2,38 @@ package fr.lasschko.pocketimperium.pocketimperium.model;
 
 public class PhaseManager {
     private int phase;
-    private int tour = 1;
+    private int turn;
 
-    public PhaseManager() {
-        this.phase = 0;
+    public PhaseManager(int phase, int turn) {
+        this.phase = phase;
+        this.turn = turn;
     }
 
-    public int getPhase(){
+
+    public int getPhase() {
         return phase;
     }
 
-    public int getTour(){
-        return tour;
+    public int getTour() {
+        return turn;
     }
 
-    public int nextPhase(){
-        if(phase == 3){
+    public int nextPhase() {
+        if (phase == 3) {
             phase = 1;
-        }else {
+        } else {
             phase++;
         }
         return phase;
     }
 
-    public int nextTour(){
-        if(tour == 3){
-            tour = 1;
-        }else {
-            tour++;
+    public int nextTurn() {
+        if (turn == 2) {
+            turn = 1;
+        } else {
+            turn++;
         }
-        return tour;
+        return turn;
     }
 
 }

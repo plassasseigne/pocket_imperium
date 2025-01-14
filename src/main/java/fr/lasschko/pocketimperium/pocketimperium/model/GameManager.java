@@ -10,16 +10,14 @@ public class GameManager {
     private final PhaseManager phaseManager;
     private final Game game;
     private final AtomicBoolean reverse = new AtomicBoolean(false);
-    private boolean running;
     private int round;
     private GameBoardView gameBoardView;
 
     public GameManager(Game game, GameBoardView gameBoardView) {
-        phaseManager = new PhaseManager();
+        phaseManager = new PhaseManager(game.getPhase(), game.getTurn());
         this.game = game;
         this.gameBoardView = gameBoardView;
-        running = true;
-        round = 1;
+        round = game.getRound();
     }
 
     public int getPhase() {
@@ -28,14 +26,7 @@ public class GameManager {
 
     public void nextPhase() {
         phaseManager.nextPhase();
-    }
-
-    public boolean isRunning() {
-        return running;
-    }
-
-    public void setRunning(boolean running) {
-        this.running = running;
+        game.setPhase(phaseManager.getPhase());
     }
 
     public int getRound() {
@@ -44,6 +35,7 @@ public class GameManager {
 
     public void setRound(int round) {
         this.round = round;
+        game.setRound(this.round);
     }
 
     public void addRound() {
@@ -52,7 +44,7 @@ public class GameManager {
 
     public void start() {
         new Thread(() -> {
-            while (this.getRound() <= 9) {
+            while (this.getRound() < 9) {
                 switch (this.getPhase()) {
                     case 0:
                         Platform.runLater(this::startPhase0);
