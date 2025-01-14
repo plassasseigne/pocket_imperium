@@ -6,15 +6,18 @@ import java.util.Objects;
 
 public class Sector {
     private final int id;
-    private List<Hex> hexes;
     private final String side;
+    private List<Hex> hexes;
     private boolean isScored;
+    private boolean isInitialDeployed;
 
 
     public Sector(int id, List<Hex> hexes, String side) {
         this.id = id;
         this.hexes = hexes;
         this.side = side;
+        this.isScored = false;
+        this.isInitialDeployed = false;
         resetIsScored();
     }
 
@@ -37,6 +40,7 @@ public class Sector {
     public void setHexes(List<Hex> hexes) {
         this.hexes = hexes;
     }
+
     public boolean IsTriPrime() {
         return Objects.equals(this.side, "CENTRAL");
     }
@@ -45,18 +49,16 @@ public class Sector {
         return isScored;
     }
 
-    private void resetIsScored() {
+    public void resetIsScored() {
         isScored = false;
     }
 
-    public void planCommands() {
+    public boolean isInitialDeployed() {
+        return isInitialDeployed;
     }
 
-    public void performCommands() {
-    }
-
-    public Sector chooseSectorToScore() {
-        return null;
+    public void setIsInitialDeployed(boolean isInitialDeployed) {
+        this.isInitialDeployed = isInitialDeployed;
     }
 
     public String toString() {

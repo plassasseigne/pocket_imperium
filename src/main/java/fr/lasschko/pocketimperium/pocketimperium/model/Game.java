@@ -1,5 +1,7 @@
 package fr.lasschko.pocketimperium.pocketimperium.model;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,16 +17,22 @@ public class Game {
             List.of("W"),
             List.of("NW")
     );
-    private GameMap gameMap;
     private final List<Hex> hexes = new ArrayList<>();
+    private GameMap gameMap;
+    private List<Player> players = new ArrayList<>();
+    private int currentPlayerIndex = 0;
+
 
     public Game() {
         gameMap = new GameMap(configuration);
         gameMap.initialize();
-        sectors =  gameMap.getSectors();
-        for(Sector sector : sectors) {
+        sectors = gameMap.getSectors();
+        for (Sector sector : sectors) {
             hexes.addAll(sector.getHexes());
         }
+        players.add(new Player("Eugene", Color.RED));
+        players.add(new Player("Paul", Color.BLUE));
+        players.add(new Player("Yves", Color.GREEN));
     }
 
     public List<Sector> getSectors() {
@@ -33,6 +41,26 @@ public class Game {
 
     public List<Hex> getHexes() {
         return hexes;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
+
+    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+        this.currentPlayerIndex = currentPlayerIndex;
+    }
+
+    public void changeCurrentPlayerIndex(int by) {
+        setCurrentPlayerIndex(getCurrentPlayerIndex() +by);
+    }
+
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayerIndex);
     }
 
 }
