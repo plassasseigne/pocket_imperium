@@ -21,7 +21,6 @@ public class GameBoardView implements Initializable {
     private final List<SectorView> sectorViews = new ArrayList<>();
     private final Game game;
     private final GameManager gameManager;
-    private final AtomicBoolean reverse = new AtomicBoolean(false);
     @FXML
     private Rectangle fadeRectangle;
 
@@ -31,7 +30,7 @@ public class GameBoardView implements Initializable {
 
     public GameBoardView() {
         game = new Game(); // Getting the "DB" of our game
-        gameManager = new GameManager();
+        gameManager = new GameManager(game, this);
     }
 
     @Override
@@ -43,34 +42,16 @@ public class GameBoardView implements Initializable {
         fadeOut.play();
 
         createHexBoard();
-        start();
+        gameManager.start();
 
     }
 
-    private void start() {
-        new Thread(() -> {
-            while (gameManager.isRunning()) {
-                switch (gameManager.getPhase()) {
-                    case 0:
-                        Platform.runLater(this::startPhase0);
-                        break;
-                    default:
-                        gameManager.setRunning(false);
-                        System.out.println("Phase 1");
-                        System.out.println(game.getCurrentPlayerIndex());
-                        break;
-                }
-
-                // Simulate a delay to avoid tight looping
-                try {
-                    Thread.sleep(100); // Adjust delay as needed
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }).start();
+    public List<HexView> getHexViews(){
+        return hexViews;
     }
-
+    public Pane getRootLayout() {
+        return rootLayout;
+    }
     private void createHexBoard() {
         for (Sector sector : game.getSectors()) {
             addSector(sector);
@@ -87,41 +68,11 @@ public class GameBoardView implements Initializable {
         hexViews.addAll(sectorView.addHexes());
     }
 
-    private void showError(String message) {
+    public void showError(String message) {
         System.err.println(message);
     }
 
-    public void startPhase0() {
 
-        for (HexView hexView : hexViews) {
-            Hex hex = hexView.getHex();
-            hexView.getPolygon().setOnMouseClicked(event -> {
-                Player currentPlayer = game.getCurrentPlayer();
-                if (hex.getSystemLevel() == SystemLevel.LEVEL_1 && !hex.getSector().isInitialDeployed()) {
-                    new ExpandCommand(2).execute(rootLayout, currentPlayer, hexView);
-                    //Check for reverse move
-                    if(!reverse.get()){
-                        game.changeCurrentPlayerIndex(1);
-                        if(game.getCurrentPlayerIndex() == 3){
-                            reverse.set(true);
-                            game.changeCurrentPlayerIndex(-1);
-                        }
-                    }else{
-                        game.changeCurrentPlayerIndex(-1);
-                        if(game.getCurrentPlayerIndex() == -1){
-                            game.changeCurrentPlayerIndex(1);
-                            gameManager.nextPhase();
-                        }
-                    }
-
-                } else {
-                    showError("It inst planet with systel level 1 or this sector is initialy demployed");
-                }
-            });
-        }
-
-
-    }
 
 
 }
