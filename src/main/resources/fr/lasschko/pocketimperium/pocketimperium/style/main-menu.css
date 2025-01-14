@@ -1,0 +1,12 @@
+.mm-body {
+    -fx-background-image: url("../../../../../img/pocket_imperium_background.jpg");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+.mm-btext {
+    -fx-fill: #7BE0F4;
+    -fx-font-family: "Poppins";
+    -fx-font-size: 14;
+}

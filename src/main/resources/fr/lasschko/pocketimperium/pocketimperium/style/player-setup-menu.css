@@ -1,0 +1,48 @@
+.psm-body {
+    -fx-background-color: linear-gradient(to bottom, #072B4A 0%, #03121F 20%, #03121F 80%, #072B4A 100%);
+    -fx-border-color: #7BE0F4;
+    -fx-border-width: 4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 11;
+}
+
+.psm-title {
+    -fx-fill: white;
+    -fx-font-family: "a Atmospheric";
+    -fx-font-size: 14;
+}
+
+.psm-bg-ship {
+    -fx-arc-width: 15;
+    -fx-arc-height: 15;
+    -fx-stroke: #7BE0F4;
+    -fx-stroke-width: 2.5;
+    -fx-fill: linear-gradient(to bottom, #072B4A 0%, #03121F 20%, #03121F 80%, #072B4A 100%);
+    -fx-effect: dropshadow(three-pass-box, rgba(123, 224, 244, 0.6), 15, 0, 0, 0);
+}
+
+.psm-label {
+    -fx-max-width: 57;
+    -fx-pref-width: 57;
+    -fx-min-width: 57;
+    -fx-text-fill: white;
+    -fx-font-family: "Poppins Regular";
+}
+
+.psm-box {
+    -fx-max-width: 125;
+    -fx-pref-width: 125;
+    -fx-min-width: 125;
+    -fx-max-height: 25;
+    -fx-background-color: linear-gradient(to bottom, #03121F, #0D3B66);
+    -fx-border-color: #7BE0F4;
+    -fx-border-width: 1;
+    -fx-border-radius: 2.5;
+    -fx-background-radius: 3.5;
+    -fx-text-fill: white;
+    -fx-font-family: "Poppins Regular";
+}
+
+.psm-box .color-picker-label, .psm-box > .label {
+    -fx-text-fill: white;
+}
