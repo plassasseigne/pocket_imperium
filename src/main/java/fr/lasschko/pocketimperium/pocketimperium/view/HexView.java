@@ -44,6 +44,7 @@ public class HexView {
         pane.getChildren().add(polygon);
         pane.setLayoutX(hex.getX());
         pane.setLayoutY(hex.getY());
+
     }
 
     public Pane getPane() {
@@ -52,6 +53,10 @@ public class HexView {
 
     public Hex getHex(){
         return hex;
+    }
+
+    public Polygon getPolygon(){
+        return polygon;
     }
 
     private static Double[] generateHexagonPoints(double size) {
@@ -72,5 +77,6 @@ public class HexView {
             default -> Color.LIGHTGRAY;
         };
     }
+
 
 }

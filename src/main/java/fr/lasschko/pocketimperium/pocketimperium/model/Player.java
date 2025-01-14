@@ -41,23 +41,8 @@ public class Player {
         return color;
     }
 
-    public void planCommands() {
-    }
-
-    public void performCommands() {
-    }
-
-    public Sector chooseSectorToScore() {
-        return null;
-    }
-
-    public void sustainShips() {
-    }
-
-    public void addPoint() {
-    }
-
-    public void initialDeployment() {
+    public void addShip(Ship ship) {
+        ships.add(ship);
     }
 
     @Override
