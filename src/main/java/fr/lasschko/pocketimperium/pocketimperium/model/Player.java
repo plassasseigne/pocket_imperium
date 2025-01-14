@@ -10,12 +10,14 @@ public class Player {
     private final String name;
     private final int score;
     private final List<Ship> ships;
+    private int numOfShips;
     private final List<Fleet> fleets;
     private final Color color;
 
     public Player(String name, Color color) {
         this.name = name;
         this.score = 0;
+        this.numOfShips = 15;
         this.ships = new ArrayList<>();
         this.fleets = new ArrayList<>();
         this.color = color;
@@ -43,7 +45,13 @@ public class Player {
 
     public void addShip(Ship ship) {
         ships.add(ship);
+        numOfShips--;
     }
+
+    public int getNumOfShips() {
+        return numOfShips;
+    }
+
 
     @Override
     public int hashCode() {
