@@ -48,7 +48,9 @@ public class Sector {
     public boolean getIsScored() {
         return isScored;
     }
-
+    public void setIsScored(boolean isScored) {
+        this.isScored = isScored;
+    }
     public void resetIsScored() {
         isScored = false;
     }

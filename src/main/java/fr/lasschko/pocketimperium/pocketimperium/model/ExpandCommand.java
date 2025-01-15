@@ -13,6 +13,7 @@ public class ExpandCommand {
             shipView.display();
             gameBoardView.getRootLayout().getChildren().add(shipView.getBody());
             hexView.getHex().setControlledBy(player);
+            hexView.getHex().addShip(ship);
             hexView.getHex().getSector().setIsInitialDeployed(true);
 
     }

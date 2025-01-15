@@ -1,18 +1,18 @@
 package fr.lasschko.pocketimperium.pocketimperium.model;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javafx.scene.paint.Color;
-
 public class Player {
     private final String name;
-    private final int score;
+    private int score;
     private final List<Ship> ships;
-    private int numOfShips;
     private final List<Fleet> fleets;
     private final Color color;
+    private int numOfShips;
     private List<String> commandOrder;
 
     public Player(String name, Color color) {
@@ -33,6 +33,10 @@ public class Player {
         return score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public List<Ship> getShips() {
         return ships;
     }
@@ -41,13 +45,14 @@ public class Player {
         return fleets;
     }
 
-    public void setCommandOrder(List<String> commandOrder){
-        this.commandOrder = commandOrder;
-    }
-
     public List<String> getCommandOrder() {
         return commandOrder;
     }
+
+    public void setCommandOrder(List<String> commandOrder) {
+        this.commandOrder = commandOrder;
+    }
+
     public Color getColor() {
         return color;
     }
@@ -55,6 +60,11 @@ public class Player {
     public void addShip(Ship ship) {
         ships.add(ship);
         numOfShips--;
+    }
+
+    public void removeShip(Ship ship) {
+        ships.remove(ship);
+        numOfShips++;
     }
 
     public int getNumOfShips() {

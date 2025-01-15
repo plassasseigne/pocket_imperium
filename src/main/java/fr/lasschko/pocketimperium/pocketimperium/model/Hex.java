@@ -1,5 +1,7 @@
 package fr.lasschko.pocketimperium.pocketimperium.model;
 
+import fr.lasschko.pocketimperium.pocketimperium.controller.GameBoardController;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,9 +12,9 @@ public class Hex {
     private final double x;
     private final double y;
     private final Sector sector;
+    private final List<Ship> ships;
     private String type;
     private List<Fleet> fleets;
-    private final List<Ship> ships;
     private Player controlledBy;
 
     public Hex(int id, double x, double y, SystemLevel systemLevel, Sector sector) {
@@ -56,6 +58,17 @@ public class Hex {
         ships.add(ship);
     }
 
+    public void removeShip(Ship ship) {
+        ships.remove(ship);
+    }
+
+    public int getShipCount(Player player, GameBoardController gameBoardController) {
+        // Логика подсчета количества кораблей на данной клетке для игрока
+        return (int) gameBoardController.getShipViews().stream()
+                .filter(shipView -> shipView.getShip().getOwner().equals(player) && shipView.getHex().equals(this))
+                .count();
+    }
+
     public List<Ship> getShips() {
         return ships;
     }
@@ -79,15 +92,16 @@ public class Hex {
         return controlledBy;
     }
 
-    public void setControlledBy(Player player) {
-        this.controlledBy = player;
-    }
-
     public boolean isControlledBy(Player player) {
         return controlledBy != null && controlledBy.equals(player);
     }
+
     public boolean isControlledBy() {
         return controlledBy != null;
+    }
+
+    public void setControlledBy(Player player) {
+        this.controlledBy = player;
     }
 
     public String toString() {
