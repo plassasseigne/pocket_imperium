@@ -8,7 +8,9 @@ import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -31,6 +33,20 @@ public class GameBoardController implements Initializable {
     @FXML
     private Pane rootLayout;
 
+    @FXML
+    private Rectangle playerSColor1;
+    @FXML
+    private Rectangle playerSColor2;
+    @FXML
+    private Rectangle playerSColor3;
+
+    @FXML
+    private Text playerSName1;
+    @FXML
+    private Text playerSName2;
+    @FXML
+    private Text playerSName3;
+
     public GameBoardController() {}
 
     @Override
@@ -45,9 +61,23 @@ public class GameBoardController implements Initializable {
         this.game = game;
         this.gameManager = new GameManager(this.game, this);
 
+        updateUiContent();
         createHexBoard();
-
         gameManager.start();
+    }
+
+    public void updateUiContent() {
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Player player3 = game.getPlayers().get(2);
+
+        playerSName1.setText(player1.getName());
+        playerSName2.setText(player2.getName());
+        playerSName3.setText(player3.getName());
+
+        playerSColor1.setFill(player1.getColor());
+        playerSColor2.setFill(player2.getColor());
+        playerSColor3.setFill(player3.getColor());
     }
 
     public List<HexView> getHexViews(){

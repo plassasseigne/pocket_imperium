@@ -2,43 +2,141 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.layout.Pane?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720" prefWidth="1280" styleClass="body" stylesheets="@../style/gameboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lasschko.pocketimperium.pocketimperium.controller.GameBoardController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720" prefWidth="1280" styleClass="gb-body" stylesheets="@../style/gameboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lasschko.pocketimperium.pocketimperium.controller.GameBoardController">
     <BorderPane prefHeight="200.0" prefWidth="200.0">
         <left>
-            <VBox styleClass="vbox-stats-container" prefHeight="720.0" prefWidth="250.0" BorderPane.alignment="CENTER">
-                <VBox styleClass="stats-container" alignment="TOP_CENTER" prefHeight="720.0" prefWidth="250.0">
-                    <Text styleClass="game-title" text="Déroulement de la partie" textAlignment="CENTER">
+            <VBox prefHeight="720.0" prefWidth="250.0" styleClass="gb-vbox" BorderPane.alignment="CENTER">
+                <VBox alignment="TOP_CENTER" maxHeight="720.0" maxWidth="300.0" minHeight="383.0" minWidth="300.0" prefHeight="383.0" prefWidth="300.0" spacing="15" styleClass="gb-container">
+                    <Text styleClass="gb-title" text="Game Info Panel" textAlignment="CENTER">
                         <font>
                             <Font name="System Bold" size="18.0" />
                         </font>
                     </Text>
+               <HBox alignment="CENTER" prefHeight="38.0" prefWidth="254.0" spacing="20">
+                 <Text fx:id="roundText" styleClass="gip-round-text" text="Round -1" />
+                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7be0f4" height="23.0" width="1.0" />
+                 <Text fx:id="phaseText" styleClass="gip-phase-text" text="Phase -1" />
+               </HBox>
+               <Text styleClass="gb-subtitle" text="Commands Reveal :" textAlignment="CENTER" />
                 </VBox>
             </VBox>
         </left>
         <center>
-            <Pane fx:id="rootLayout" />
+            <Pane fx:id="rootLayout" styleClass="root-layout" />
         </center>
         <right>
-            <VBox styleClass="vbox-stats-container" prefHeight="720.0" prefWidth="250.0" BorderPane.alignment="CENTER">
-                <VBox styleClass="stats-container" alignment="TOP_CENTER" prefHeight="260.0" prefWidth="250.0">
+            <VBox prefHeight="720.0" prefWidth="250.0" styleClass="gb-vbox" BorderPane.alignment="CENTER">
+                <VBox alignment="TOP_CENTER" maxHeight="180.0" maxWidth="300.0" minHeight="180.0" minWidth="300.0" prefHeight="180.0" prefWidth="300.0" spacing="10.0" styleClass="gb-container">
                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </padding>
-                    <Text styleClass="game-title" text="Statistiques de la partie" textAlignment="CENTER">
-                        <font>
-                            <Font name="System Bold" size="18.0"/>
-                        </font>
-                    </Text>
+               <VBox alignment="CENTER">
+                  <children>
+                      <Text styleClass="gb-title" text="Score Player Panel" textAlignment="CENTER">
+                          <font>
+                              <Font name="System Bold" size="18.0" />
+                          </font>
+                      </Text>
+                  </children>
+                  <VBox.margin>
+                     <Insets bottom="5.0" />
+                  </VBox.margin>
+               </VBox>
+               <VBox prefHeight="200.0" prefWidth="100.0">
+                  <children>
+                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <children>
+                            <HBox alignment="CENTER" spacing="2.5" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Rectangle fx:id="playerSColor1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="14.0" stroke="BLACK" strokeType="INSIDE" width="14.0" />
+                                 <Text fx:id="playerSName1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-text" text="Player 1" />
+                              </children></HBox>
+                            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7be0f4" height="23.0" width="1.0" />
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Text fx:id="playerSShip1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-number" text="99" />
+                              </children></HBox>
+                            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7be0f4" height="23.0" width="1.0" />
+                            <HBox alignment="CENTER" spacing="2.5" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-text" text="Score:" />
+                                 <Text fx:id="playerSScore1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-number" text="99" />
+                              </children></HBox>
+                        </children>
+                     </HBox>
+                     <HBox prefHeight="100.0" prefWidth="200.0" />
+                     <HBox prefHeight="100.0" prefWidth="200.0" />
+                  </children>
+               </VBox>
+               <VBox prefHeight="200.0" prefWidth="100.0">
+                  <children>
+                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <children>
+                           <HBox alignment="CENTER" spacing="2.5" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Rectangle fx:id="playerSColor2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="14.0" stroke="BLACK" strokeType="INSIDE" width="14.0" />
+                                 <Text fx:id="playerSName2" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-text" text="Player 1" />
+                              </children>
+                           </HBox>
+                           <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7be0f4" height="23.0" width="1.0" />
+                           <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Text fx:id="playerSShip2" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-number" text="99" />
+                              </children>
+                           </HBox>
+                           <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7be0f4" height="23.0" width="1.0" />
+                           <HBox alignment="CENTER" spacing="2.5" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-text" text="Score:" />
+                                 <Text fx:id="playerSScore2" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-number" text="99" />
+                              </children>
+                           </HBox>
+                        </children>
+                     </HBox>
+                     <HBox prefHeight="100.0" prefWidth="200.0" />
+                     <HBox prefHeight="100.0" prefWidth="200.0" />
+                  </children>
+               </VBox>
+               <VBox prefHeight="200.0" prefWidth="100.0">
+                  <children>
+                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <children>
+                           <HBox alignment="CENTER" spacing="2.5" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Rectangle fx:id="playerSColor3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="14.0" stroke="BLACK" strokeType="INSIDE" width="14.0" />
+                                 <Text fx:id="playerSName3" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-text" text="Player 1" />
+                              </children>
+                           </HBox>
+                           <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7be0f4" height="23.0" width="1.0" />
+                           <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Text fx:id="playerSShip3" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-number" text="99" />
+                              </children>
+                           </HBox>
+                           <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7be0f4" height="23.0" width="1.0" />
+                           <HBox alignment="CENTER" spacing="2.5" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-text" text="Score:" />
+                                 <Text fx:id="playerSScore3" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="spp-number" text="99" />
+                              </children>
+                           </HBox>
+                        </children>
+                     </HBox>
+                     <HBox prefHeight="100.0" prefWidth="200.0" />
+                     <HBox prefHeight="100.0" prefWidth="200.0" />
+                  </children>
+               </VBox>
                 </VBox>
             </VBox>
         </right>
     </BorderPane>
-    <Rectangle fx:id="fadeRectangle" disable="true" fill="#020a12" opacity="1" width="1280" height="720" />
+    <Rectangle fx:id="fadeRectangle" disable="true" fill="#020a12" height="720" opacity="1" width="1280" />
 </StackPane>
