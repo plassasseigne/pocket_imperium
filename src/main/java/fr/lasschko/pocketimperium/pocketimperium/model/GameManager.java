@@ -2,6 +2,7 @@ package fr.lasschko.pocketimperium.pocketimperium.model;
 
 import fr.lasschko.pocketimperium.pocketimperium.controller.CommandSelectionController;
 import fr.lasschko.pocketimperium.pocketimperium.controller.GameBoardController;
+import fr.lasschko.pocketimperium.pocketimperium.utils.ErrorPopup;
 import fr.lasschko.pocketimperium.pocketimperium.view.HexView;
 import fr.lasschko.pocketimperium.pocketimperium.view.ShipView;
 import javafx.application.Platform;
@@ -16,9 +17,9 @@ public class GameManager {
     private final Game game;
     private final AtomicBoolean reverse = new AtomicBoolean(false);
     private final AtomicBoolean allPlayersReady = new AtomicBoolean(false);
-    private final Map<Player, List<String>> playerCommands;
     private final GameBoardController gameBoardController;
     private final CommandSelectionController commandSelectionController;
+    private Map<Player, List<String>> playerCommands;
     private ShipView selectedShipView;
     private int round;
 
@@ -60,13 +61,15 @@ public class GameManager {
                 switch (this.getPhase()) {
                     case 0:
                         Platform.runLater(this::startPhase0);
-
                         break;
                     case 1:
                         startPhase1();
                         break;
                     case 2:
                         startPhase2();
+                        break;
+                    case 3:
+                        startPhase3();
                         break;
                     default:
                         this.addRound();
@@ -108,7 +111,7 @@ public class GameManager {
                     }
 
                 } else {
-                    gameBoardController.showError("It inst planet with systel level 1 or this sector is initialy demployed");
+                    ErrorPopup.showError("It inst planet with systel level 1 or this sector is initialy demployed");
                 }
             });
         }
@@ -117,6 +120,10 @@ public class GameManager {
     }
 
     public void startPhase1() {
+        playerCommands = new LinkedHashMap<>();
+        for (Player player : game.getPlayers()) {
+            player.setCommandOrder(new ArrayList<>());
+        }
         for (int i = 0; i < game.getNumberOfPlayers(); i++) {
             CountDownLatch latch = new CountDownLatch(1);
             Platform.runLater(() -> commandSelectionController.createCommandSelection(latch));
@@ -154,14 +161,14 @@ public class GameManager {
 
                     switch (command) {
                         case "Expand":
-                            executeExpandCommand(player, finalI, latch); // Show interface for Expand
+                            executeExpandCommand(player, finalI, latch);
                             break;
                         case "Explore":
-                            executeExploreCommand(player, finalI, latch); // Show interface for Explore
+                            executeExploreCommand(player, finalI, latch);
                             break;
                         case "Exterminate":
-//                            showExterminateInterface(player, latch); // Show interface for Exterminate
                             System.out.println("Exterminate");
+                            latch.countDown();
                             break;
                         default:
                             System.err.println("Unknown command: " + command);
@@ -182,6 +189,32 @@ public class GameManager {
         nextPhase();
     }
 
+    public void startPhase3() {
+        this.sustainShips();
+        gameBoardController.updateUiContent();
+        // Iterate over players who need to choose sectors
+        for (Player player : game.getPlayers()) {
+            CountDownLatch latch = new CountDownLatch(1);  // Create latch to wait for the player to finish their turn
+
+            // Call chooseSector for the current player
+            chooseSector(player, latch);
+
+            // Wait for the player to finish selecting the sector
+            try {
+                latch.await();  // Block until the current player has finished their selection
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();  // Handle interruption if necessary
+            }
+            System.out.println("Player: " + player.getName() + " has scored " + player.getScore());
+            gameBoardController.updateUiContent();
+        }
+        for (Sector sector : game.getSectors()) {
+            sector.resetIsScored();
+        }
+        nextPhase();
+        addRound();
+    }
+
     private void executeExpandCommand(Player player, int orderIndex, CountDownLatch phaseLatch) {
         int amount = getCommandEffectiveness("Expand", orderIndex); // Number of iterations for the Expand command
         CountDownLatch expandLatch = new CountDownLatch(amount); // Counter for all iterations of the Expand command
@@ -198,7 +231,7 @@ public class GameManager {
                         phaseLatch.countDown(); // Unlock execution for the current player
                     }
                 } else {
-                    gameBoardController.showError("You don't control this planet");
+                    ErrorPopup.showError("You don't control this planet");
                 }
             });
         }
@@ -218,7 +251,7 @@ public class GameManager {
                 if (selectedShipView != null && shipsMoved.get() < amount) {
                     // If another ship has already started moving, prevent switching
                     if (isCurrentShipMoving.get() && !moveCounts.containsKey(selectedShipView)) {
-                        gameBoardController.showError("You must finish moving the current ship before selecting another.");
+                        ErrorPopup.showError("You must finish moving the current ship before selecting another.");
                         return;
                     }
 
@@ -234,7 +267,7 @@ public class GameManager {
 
                     // Check if the hex is controlled by another player
                     if (hexView.getHex().isControlledBy() && !hexView.getHex().getControlledBy().equals(player)) {
-                        gameBoardController.showError("You cannot move to a hex controlled by another player.");
+                        ErrorPopup.showError("You cannot move to a hex controlled by another player.");
                         return;
                     }
 
@@ -250,6 +283,7 @@ public class GameManager {
                         if (currentMoveCount == 2) {
                             shipsMoved.incrementAndGet();
                             isCurrentShipMoving.set(false); // Reset the flag to allow selecting a new ship
+                            selectedShipView.deselect();
                         }
 
                         // If all ships have completed their moves, finish the command execution
@@ -257,12 +291,88 @@ public class GameManager {
                             latch.countDown();
                         }
                     } else {
-                        gameBoardController.showError("Invalid move. Check distance or remaining moves.");
+                        ErrorPopup.showError("Invalid move. Check distance or remaining moves.");
                     }
                 } else if (shipsMoved.get() >= amount) {
-                    gameBoardController.showError("You have moved the maximum number of ships.");
+                    ErrorPopup.showError("You have moved the maximum number of ships.");
                 }
             });
+        }
+    }
+
+    private void sustainShips() {
+        for (HexView hexView : gameBoardController.getHexViews()) {
+            Hex hex = hexView.getHex();
+            int currentShipCount = hex.getShips().size();
+            int maxShipsAllowed = 1 + hex.getSystemLevel().ordinal();  // Max ships based on system level
+
+            // If the current ship count exceeds the maximum allowed
+            if (currentShipCount > maxShipsAllowed) {
+                int excessShips = currentShipCount - maxShipsAllowed;
+
+                // Remove the excess ships
+                for (int i = 0; i < excessShips; i++) {
+                    Ship shipToRemove = hex.getShips().get(i);  // Get the excess ship
+                    Player owner = shipToRemove.getOwner();
+
+                    // Remove ship from the player's list
+                    owner.removeShip(shipToRemove);
+
+                    // Remove ship from the hex
+                    hex.removeShip(shipToRemove);
+
+                    // Optionally update the game interface (e.g., remove the ship view from the board)
+                    Platform.runLater(() -> {
+                        for (ShipView shipView : gameBoardController.getShipViews()) {
+                            if (shipView.getShip() == shipToRemove) {
+                                gameBoardController.getRootLayout().getChildren().remove(shipView.getBody()); // Remove ship from the UI
+                                break;
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    private void chooseSector(Player player, CountDownLatch latch) {
+        for (HexView hexView : gameBoardController.getHexViews()) {
+            hexView.getPolygon().setOnMouseEntered(event -> {
+                Sector sector = hexView.getHex().getSector();
+                for (HexView hexView1 : gameBoardController.getHexViews()) {
+                    if (hexView1.getHex().getSector().equals(sector)) {
+                        hexView1.getPolygon().setStrokeWidth(3);
+                    }
+                }
+            });
+
+            hexView.getPolygon().setOnMouseExited(event -> {
+                Sector sector = hexView.getHex().getSector();
+                for (HexView hexView1 : gameBoardController.getHexViews()) {
+                    if (hexView1.getHex().getSector().equals(sector)) {
+                        hexView1.getPolygon().setStrokeWidth(1);
+                    }
+                }
+            });
+
+            hexView.getPolygon().setOnMouseClicked(event -> {
+                Sector sector = hexView.getHex().getSector();
+                if (!sector.getIsScored()) {
+                    sector.setIsScored(true);
+                    countScore(sector, player);
+                    latch.countDown();  // Player has finished their turn, allow next player to choose
+                } else {
+                    ErrorPopup.showError("This sector is already scored.");
+                }
+            });
+        }
+    }
+
+    private void countScore(Sector sector, Player player) {
+        for (Hex hex : sector.getHexes()) {
+            if (hex.isControlledBy(player)) {
+                player.setScore(player.getScore() + hex.getSystemLevel().ordinal());
+            }
         }
     }
 
@@ -339,7 +449,7 @@ public class GameManager {
                         selectedShipView = null;
                     }
                 } else {
-                    gameBoardController.showError("This is not your ship");
+                    ErrorPopup.showError("This is not your ship");
                 }
 
             });
