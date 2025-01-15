@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Button?>
+
+<StackPane prefHeight="265" prefWidth="520" styleClass="er-body" stylesheets="@../style/error-popup.css, @../style/button.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lasschko.pocketimperium.pocketimperium.utils.ErrorPopup">
+    <VBox spacing="30" alignment="CENTER">
+        <Text styleClass="er-title">Error</Text>
+        <Text styleClass="er-text" fx:id="errorText" />
+        <Button styleClass="error-button" fx:id="okButton" text="OK" />
+    </VBox>
+</StackPane>

@@ -31,3 +31,13 @@
 .second-button:hover {
     -fx-background-color: linear-gradient(to bottom, #4F3A06, #B08924);
 }
+
+.error-button {
+    -fx-text-fill: #FF2E2E;
+    -fx-border-color: #FF2E2E;
+    -fx-background-color: linear-gradient(to bottom, #270404, #770B0B);
+}
+
+.error-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #750909, #b61313);
+}

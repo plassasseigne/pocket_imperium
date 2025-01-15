@@ -1,0 +1,15 @@
+.er-body {
+    -fx-background-color: linear-gradient(to bottom, #4A0707 0%, #1F0303 20%, #1F0303 80%, #4A0707 100%);
+}
+
+.er-title {
+    -fx-font-family: "a Atmospheric";
+    -fx-font-size: 26;
+    -fx-fill: #FF2E2E;
+}
+
+.er-text {
+    -fx-font-family: Poppins;
+    -fx-font-size: 14;
+    -fx-fill: #FF2E2E;
+}

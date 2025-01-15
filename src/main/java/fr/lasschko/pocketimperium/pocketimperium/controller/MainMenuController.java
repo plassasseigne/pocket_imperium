@@ -2,6 +2,7 @@ package fr.lasschko.pocketimperium.pocketimperium.controller;
 
 import fr.lasschko.pocketimperium.pocketimperium.model.Game;
 import fr.lasschko.pocketimperium.pocketimperium.model.Player;
+import fr.lasschko.pocketimperium.pocketimperium.utils.ErrorPopup;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -107,21 +108,25 @@ public class MainMenuController implements Initializable {
     private void startGame(ActionEvent event) {
         Game game = getGame();
 
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fr/lasschko/pocketimperium/pocketimperium/view/game-board.fxml"));
-            Parent gameBoardRoot = fxmlLoader.load();
+        if (!playerName1.getText().isEmpty() && !playerName2.getText().isEmpty() && !playerName3.getText().isEmpty()) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fr/lasschko/pocketimperium/pocketimperium/view/game-board.fxml"));
+                Parent gameBoardRoot = fxmlLoader.load();
 
-            GameBoardController gameBoardController = fxmlLoader.getController();
+                GameBoardController gameBoardController = fxmlLoader.getController();
 
-            gameBoardController.initData(game);
+                gameBoardController.initData(game);
 
-            Scene gameBoardScene = new Scene(gameBoardRoot, 1280, 720);
+                Scene gameBoardScene = new Scene(gameBoardRoot, 1280, 720);
 
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(gameBoardScene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                stage.setScene(gameBoardScene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            ErrorPopup.showError("Please enter a name for every players.");
         }
     }
 
