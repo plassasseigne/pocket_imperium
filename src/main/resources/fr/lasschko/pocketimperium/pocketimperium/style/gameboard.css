@@ -1,24 +1,60 @@
-.body {
-    -fx-background-image: url("../../../../../img/pocket_imperium_background.jpg");
+.gb-body {
+    -fx-background-image: url("../../../../../img/pocket_imperium_galaxy.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-size: cover;
 }
 
-.vbox-stats-container {
+.gb-vbox {
     -fx-padding: 20;
 }
 
-.stats-container {
-    -fx-background-color: linear-gradient(#063057, #020A12, #020A12, #063057);
+.gb-container {
+    -fx-background-color: linear-gradient(to bottom, #072B4A 0%, #03121F 20%, #03121F 80%, #072B4A 100%);
     -fx-padding: 20;
     -fx-border-width: 3;
     -fx-border-radius: 6;
     -fx-border-color: #48ABFE;
-    -fx-effect: dropshadow(gaussian, rgb(72, 171, 254), 20, 0.5, 0, 0);
     -fx-background-radius: 7;
 }
 
-.game-title {
-    -fx-fill: #48ABFE;
+.gb-title {
+    -fx-fill: white;
+    -fx-font-family: "a Atmospheric";
+    -fx-font-size: 16;
+}
+
+.gb-subtitle {
+    -fx-fill: white;
+    -fx-font-family: "a Atmospheric";
+    -fx-font-size: 14;
+}
+
+.gip-round-text, .gip-phase-text {
+    -fx-font-family: "a Atmospheric";
+    -fx-font-size: 14;
+}
+
+.gip-round-text {
+    -fx-fill: #FFE490;
+}
+
+.gip-phase-text {
+    -fx-fill: #7BE0F4;
+}
+
+.spp-text {
+    -fx-font-family: "Poppins";
+    -fx-font-size: 12;
+    -fx-fill: white;
+}
+
+.spp-number {
+    -fx-font-family: "a Atmospheric";
+    -fx-font-size: 12;
+    -fx-fill: white;
+}
+
+.root-layout {
+    -fx-translate-x: -175;
 }

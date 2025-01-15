@@ -28,7 +28,6 @@ public class GameMap {
                 sectors.add(sector);
                 sectorName += " ";
             }
-
         }
     }
 
@@ -39,9 +38,6 @@ public class GameMap {
     public void initialize(){
         this.generateSideSectors();
     }
-
-
-
 }
 
 

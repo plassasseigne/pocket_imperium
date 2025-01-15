@@ -1,0 +1,33 @@
+.cs-body {
+    -fx-background-color: linear-gradient(to bottom, #072B4A 0%, #03121F 20%, #03121F 80%, #072B4A 100%);
+}
+
+.cs-card {
+    -fx-font-family: "a Atmospheric";
+    -fx-font-size: 12;
+    -fx-text-fill: white;
+    -fx-padding: 7 15;
+}
+
+.expand-card {
+    -fx-background-color: #E4EB11;
+}
+
+.explore-card {
+    -fx-background-color: #4D67E9;
+}
+
+.exterminate-card {
+    -fx-background-color: #DF1818;
+}
+
+.cs-player {
+    -fx-font-family: "a Atmospheric";
+    -fx-font-size: 16;
+    -fx-fill: white;
+}
+
+.cs-instruction {
+    -fx-font-family: "Poppins";
+    -fx-fill: white;
+}
