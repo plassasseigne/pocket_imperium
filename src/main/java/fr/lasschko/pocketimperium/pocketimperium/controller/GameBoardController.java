@@ -23,6 +23,7 @@ public class GameBoardController implements Initializable {
     private final List<SectorView> sectorViews = new ArrayList<>();
 
 
+
     private Game game;
     private GameManager gameManager;
 
@@ -30,6 +31,13 @@ public class GameBoardController implements Initializable {
 
     @FXML
     private Rectangle fadeRectangle;
+
+    @FXML
+    private Text roundText;
+    @FXML
+    private Text phaseText;
+    @FXML
+    private Text commandsReveal;
 
     @FXML
     private Pane rootLayout;
@@ -103,6 +111,28 @@ public class GameBoardController implements Initializable {
         playerSScore3.setText(String.valueOf(player3.getScore()));
     }
 
+    public void updateRoundText(int round) {
+        round++;
+        roundText.setText("Round - " + round);
+    }
+
+    public void updatePhaseText(int phase) {
+        phaseText.setText("Phase - " + phase);
+    }
+
+    public void updateCommandsRevealText(int tourIndex, List<Player> players) {
+        StringBuilder textBuilder = new StringBuilder();
+        textBuilder.append("Tour - ").append(tourIndex + 1).append("\n");
+
+        for (Player player : players) {
+            textBuilder.append(player.getName())
+                    .append(": ")
+                    .append(player.getCommandOrder().get(tourIndex))
+                    .append("\n");
+        }
+
+        commandsReveal.setText(textBuilder.toString());
+    }
     public List<HexView> getHexViews(){
         return hexViews;
     }

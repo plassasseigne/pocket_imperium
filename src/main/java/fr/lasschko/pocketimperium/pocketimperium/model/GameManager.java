@@ -34,6 +34,7 @@ public class GameManager {
     }
 
     public int getPhase() {
+        gameBoardController.updatePhaseText(phaseManager.getPhase());
         return phaseManager.getPhase();
     }
 
@@ -48,6 +49,7 @@ public class GameManager {
 
     public void setRound(int round) {
         this.round = round;
+        gameBoardController.updateRoundText(round);
         game.setRound(this.round);
     }
 
@@ -82,8 +84,6 @@ public class GameManager {
             }
             Player winner = getWinner(game.getPlayers());
         }).start();
-
-
     }
 
     public Player getWinner(List<Player> players) {
@@ -163,7 +163,7 @@ public class GameManager {
         for (int i = 0; i < order.size(); i++) {
             int commandIndex = i; // Current command index
             List<Player> currentPlayers = order.get(i);
-
+            gameBoardController.updateCommandsRevealText(i, currentPlayers);
             // For each player in the current list
             for (Player player : currentPlayers) {
                 CountDownLatch latch = new CountDownLatch(1); // Synchronization for command execution

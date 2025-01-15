@@ -25,7 +25,7 @@
                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7be0f4" height="23.0" width="1.0" />
                  <Text fx:id="phaseText" styleClass="gip-phase-text" text="Phase -1" />
                </HBox>
-               <Text styleClass="gb-subtitle" text="Commands Reveal :" textAlignment="CENTER" />
+               <Text fx:id="commandsReveal" styleClass="gb-subtitle" text="Commands Reveal :" textAlignment="CENTER" />
                 </VBox>
             </VBox>
         </left>
