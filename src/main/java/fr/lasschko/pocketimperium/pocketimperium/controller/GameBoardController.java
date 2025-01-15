@@ -7,8 +7,9 @@ import fr.lasschko.pocketimperium.pocketimperium.view.ShipView;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -21,7 +22,6 @@ import java.util.ResourceBundle;
 public class GameBoardController implements Initializable {
     private final List<HexView> hexViews = new ArrayList<>();
     private final List<SectorView> sectorViews = new ArrayList<>();
-
 
 
     private Game game;
@@ -70,6 +70,9 @@ public class GameBoardController implements Initializable {
     @FXML
     private Text playerSScore3;
 
+    @FXML
+    private StackPane pauseMenu;
+
     public GameBoardController() {}
 
     @Override
@@ -85,6 +88,7 @@ public class GameBoardController implements Initializable {
         this.gameManager = new GameManager(this.game, this);
 
         updateUiContent();
+
         createHexBoard();
         gameManager.start();
     }
@@ -133,6 +137,18 @@ public class GameBoardController implements Initializable {
 
         commandsReveal.setText(textBuilder.toString());
     }
+    @FXML
+    public void openPauseMenu() {
+        pauseMenu.setOpacity(1);
+        pauseMenu.setVisible(true);
+    }
+
+    @FXML
+    public void closePauseMenu() {
+        pauseMenu.setOpacity(0);
+        pauseMenu.setVisible(false);
+    }
+
     public List<HexView> getHexViews(){
         return hexViews;
     }
