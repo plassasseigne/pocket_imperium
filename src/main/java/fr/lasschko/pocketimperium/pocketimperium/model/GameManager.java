@@ -1,27 +1,34 @@
 package fr.lasschko.pocketimperium.pocketimperium.model;
 
+import fr.lasschko.pocketimperium.pocketimperium.controller.CommandSelectionController;
 import fr.lasschko.pocketimperium.pocketimperium.controller.GameBoardController;
 import fr.lasschko.pocketimperium.pocketimperium.view.HexView;
 import fr.lasschko.pocketimperium.pocketimperium.view.ShipView;
 import javafx.application.Platform;
 
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameManager {
     private final PhaseManager phaseManager;
     private final Game game;
     private final AtomicBoolean reverse = new AtomicBoolean(false);
-    private int round;
-    private GameBoardController gameBoardController;
-
+    private final AtomicBoolean allPlayersReady = new AtomicBoolean(false);
+    private final Map<Player, List<String>> playerCommands;
+    private final GameBoardController gameBoardController;
+    private final CommandSelectionController commandSelectionController;
     private ShipView selectedShipView;
-
+    private int round;
 
     public GameManager(Game game, GameBoardController gameBoardController) {
-        phaseManager = new PhaseManager(game.getPhase(), game.getTurn());
+        this.phaseManager = new PhaseManager(game.getPhase(), game.getTurn());
         this.game = game;
         this.gameBoardController = gameBoardController;
-        round = game.getRound();
+        this.commandSelectionController = new CommandSelectionController(game);
+
+        this.round = game.getRound();
+        this.playerCommands = new LinkedHashMap<>();
     }
 
     public int getPhase() {
@@ -55,23 +62,10 @@ public class GameManager {
 
                         break;
                     case 1:
-                        System.out.println("Phase 1");
-                        Platform.runLater(this::moveShip);
+                        startPhase1();
                         break;
-//                    case 1:
-//                        System.out.println("Phase 1");
-//                        break;
-//                    case 2:
-//                        System.out.println("Phase 2");
-//                        break;
-//                    case 3:
-//                        System.out.println("Phase 3");
-//                        this.addRound();
-//                        break;
                     default:
                         this.addRound();
-                        System.out.println("Phase 1");
-                        System.out.println(game.getCurrentPlayerIndex());
                         break;
                 }
 
@@ -115,6 +109,24 @@ public class GameManager {
 
 
     }
+
+    public void startPhase1() {
+        for (int i = 0; i < game.getNumberOfPlayers(); i++) {
+            CountDownLatch latch = new CountDownLatch(1);
+            Platform.runLater(() -> commandSelectionController.createCommandSelection(latch));
+            try {
+                latch.await(); // Block until the player finishes selection
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            playerCommands.put(game.getCurrentPlayer(), game.getCurrentPlayer().getCommandOrder());
+            game.changeCurrentPlayerIndex(1);
+        }
+        allPlayersReady.set(true);
+        nextPhase();
+    }
+
+
 
     private void moveShip() {
         selectShipView();

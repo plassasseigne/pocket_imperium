@@ -13,6 +13,7 @@ public class Player {
     private int numOfShips;
     private final List<Fleet> fleets;
     private final Color color;
+    private List<String> commandOrder;
 
     public Player(String name, Color color) {
         this.name = name;
@@ -21,6 +22,7 @@ public class Player {
         this.ships = new ArrayList<>();
         this.fleets = new ArrayList<>();
         this.color = color;
+        this.commandOrder = new ArrayList<>();
     }
 
     public String getName() {
@@ -39,6 +41,13 @@ public class Player {
         return fleets;
     }
 
+    public void setCommandOrder(List<String> commandOrder){
+        this.commandOrder = commandOrder;
+    }
+
+    public List<String> getCommandOrder() {
+        return commandOrder;
+    }
     public Color getColor() {
         return color;
     }
@@ -56,5 +65,9 @@ public class Player {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public String toString() {
+        return getName();
     }
 }
