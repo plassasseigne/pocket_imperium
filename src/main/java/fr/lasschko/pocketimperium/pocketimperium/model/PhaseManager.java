@@ -14,7 +14,7 @@ public class PhaseManager {
         return phase;
     }
 
-    public int getTour() {
+    public int getTurn() {
         return turn;
     }
 
@@ -30,6 +30,7 @@ public class PhaseManager {
     public int nextTurn() {
         if (turn == 2) {
             turn = 1;
+            nextPhase();
         } else {
             turn++;
         }

@@ -6,7 +6,6 @@ public class GameMap {
     private final List<Sector> sectors = new ArrayList<>();
     private final CoordinatePlane plane = new CoordinatePlane();
     private final HexGenerator hexGenerator = new HexGenerator(plane);
-    private HexesGraph hexesGraph;
     private final List<List<String>> configuration;
 
     public GameMap(List<List<String>> configuration) {
@@ -41,13 +40,7 @@ public class GameMap {
         this.generateSideSectors();
     }
 
-    public HexesGraph getGraph() {
-        return hexesGraph;
-    }
 
-    public void setHexesGraph(List<Hex> hexes) {
-        this.hexesGraph = new HexesGraph(hexes);
-    }
 
 }
 

@@ -24,6 +24,7 @@ public class Game {
     private int round = 0;
     private int turn = 0;
     private int phase = 0;
+    private HexesGraph hexesGraph;
 
     public Game() {
         gameMap = new GameMap(configuration);
@@ -32,6 +33,8 @@ public class Game {
         for (Sector sector : sectors) {
             hexes.addAll(sector.getHexes());
         }
+        hexesGraph = new HexesGraph(hexes);
+
     }
 
     public List<Sector> getSectors() {
@@ -41,9 +44,15 @@ public class Game {
     public List<Hex> getHexes() {
         return hexes;
     }
-
+    public HexesGraph getHexesGraph() {
+        return hexesGraph;
+    }
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public GameMap getGameMap() {
+        return gameMap;
     }
 
     public void setPlayers(List<Player> players) {

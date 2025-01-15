@@ -2,6 +2,7 @@ package fr.lasschko.pocketimperium.pocketimperium.model;
 
 import fr.lasschko.pocketimperium.pocketimperium.controller.GameBoardController;
 import fr.lasschko.pocketimperium.pocketimperium.view.HexView;
+import fr.lasschko.pocketimperium.pocketimperium.view.ShipView;
 import javafx.application.Platform;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -12,6 +13,9 @@ public class GameManager {
     private final AtomicBoolean reverse = new AtomicBoolean(false);
     private int round;
     private GameBoardController gameBoardController;
+
+    private ShipView selectedShipView;
+
 
     public GameManager(Game game, GameBoardController gameBoardController) {
         phaseManager = new PhaseManager(game.getPhase(), game.getTurn());
@@ -48,6 +52,11 @@ public class GameManager {
                 switch (this.getPhase()) {
                     case 0:
                         Platform.runLater(this::startPhase0);
+
+                        break;
+                    case 1:
+                        System.out.println("Phase 1");
+                        Platform.runLater(this::moveShip);
                         break;
 //                    case 1:
 //                        System.out.println("Phase 1");
@@ -82,7 +91,7 @@ public class GameManager {
             hexView.getPolygon().setOnMouseClicked(event -> {
                 Player currentPlayer = game.getCurrentPlayer();
                 if (hex.getSystemLevel() == SystemLevel.LEVEL_1 && !hex.getSector().isInitialDeployed()) {
-                    new ExpandCommand(2).execute(gameBoardController.getRootLayout(), currentPlayer, hexView);
+                    new ExpandCommand(2).execute(gameBoardController, currentPlayer, hexView);
                     //Check for reverse move
                     if (!reverse.get()) {
                         game.changeCurrentPlayerIndex(1);
@@ -100,6 +109,31 @@ public class GameManager {
 
                 } else {
                     gameBoardController.showError("It inst planet with systel level 1 or this sector is initialy demployed");
+                }
+            });
+        }
+
+
+    }
+
+    private void moveShip() {
+        selectShipView();
+        for (HexView hexView : gameBoardController.getHexViews()) {
+            hexView.getPolygon().setOnMouseClicked(event -> {
+                new ExploreCommand(game).execute(selectedShipView, hexView);
+            });
+        }
+    }
+
+    private void selectShipView() {
+        for (ShipView shipView : gameBoardController.getShipViews()) {
+            shipView.getBody().setOnMouseClicked(event -> {
+                if (selectedShipView == null) {
+                    selectedShipView = shipView;
+                    selectedShipView.select();
+                } else {
+                    selectedShipView.deselect();
+                    selectedShipView = null;
                 }
             });
         }

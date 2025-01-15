@@ -3,6 +3,7 @@ package fr.lasschko.pocketimperium.pocketimperium.controller;
 import fr.lasschko.pocketimperium.pocketimperium.model.*;
 import fr.lasschko.pocketimperium.pocketimperium.view.HexView;
 import fr.lasschko.pocketimperium.pocketimperium.view.SectorView;
+import fr.lasschko.pocketimperium.pocketimperium.view.ShipView;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,6 +22,8 @@ public class GameBoardController implements Initializable {
 
     private Game game;
     private GameManager gameManager;
+
+    private final List<ShipView> shipViews = new ArrayList<>();
 
     @FXML
     private Rectangle fadeRectangle;
@@ -72,4 +75,14 @@ public class GameBoardController implements Initializable {
     public void showError(String message) {
         System.err.println(message);
     }
+
+    public void addShipView(ShipView shipView) {
+        shipViews.add(shipView);
+    }
+
+    public List<ShipView> getShipViews(){
+        return shipViews;
+    }
+
+
 }

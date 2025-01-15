@@ -5,10 +5,12 @@ import java.util.List;
 
 public class Ship {
     private final Player owner;
+    private Hex hex;
     private final List<Double> position = new ArrayList<Double>();
 
     public Ship(Player owner, Hex hex) {
         this.owner = owner;
+        this.hex = hex;
         setPosition(hex.getX(), hex.getY());
     }
 
@@ -16,6 +18,16 @@ public class Ship {
         return owner;
     }
 
+    public boolean isOwner(Player player){
+        return getOwner().equals(player);
+    }
+    public Hex getHex() {
+        return hex;
+    }
+
+    public void setHex(Hex hex) {
+        this.hex = hex;
+    }
     public List<Double> getPosition() {
         return position;
     }
