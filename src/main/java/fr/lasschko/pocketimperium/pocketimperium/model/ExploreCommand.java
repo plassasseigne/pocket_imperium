@@ -12,6 +12,10 @@ public class ExploreCommand {
     public void execute(ShipView selectedShipView, HexView targetHexView) {
         int moveCount = graph.getMoveCount(selectedShipView.getHex(), targetHexView.getHex());
         if (moveCount >= 0 && moveCount <= 2) {
+            //Clear the hex we are moving out
+            selectedShipView.getHex().setControlledBy(null);
+            //Set that player controlls the hex he moved to
+            targetHexView.getHex().setControlledBy(selectedShipView.getShip().getOwner());
             selectedShipView.display(targetHexView.getHex());
             selectedShipView.getShip().setHex(targetHexView.getHex());
         }
