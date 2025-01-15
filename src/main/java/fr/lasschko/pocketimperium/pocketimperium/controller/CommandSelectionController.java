@@ -1,22 +1,35 @@
 package fr.lasschko.pocketimperium.pocketimperium.controller;
 
 import fr.lasschko.pocketimperium.pocketimperium.model.Game;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class CommandSelectionController {
+    @FXML
+    private Button expandButton;
+    @FXML
+    private Button exploreButton;
+    @FXML
+    private Button exterminateButton;
+    @FXML
+    private Button confirmButton;
 
+    @FXML
+    private Text actualPlayer;
+    @FXML
+    private Text instruction;
 
     private List<String> commandOrder = new ArrayList<>();
-
     private Game game;
 
     public CommandSelectionController(Game game) {
@@ -24,15 +37,25 @@ public class CommandSelectionController {
     }
 
     public void createCommandSelection(CountDownLatch latch) {
-        Stage stage = new Stage();
-        VBox layout = new VBox(10);
-        Label instruction = new Label("Select the order of commands for " + game.getCurrentPlayer().getName());
-        HBox commands = new HBox(10);
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fr/lasschko/pocketimperium/pocketimperium/view/command-selection.fxml"));
+            CommandSelectionController controller = new CommandSelectionController(game);
+            fxmlLoader.setController(controller);
+            Parent CommandSelectionRoot = fxmlLoader.load();
+            Stage stage = new Stage();
 
-        Button expandButton = new Button("Expand");
-        Button exploreButton = new Button("Explore");
-        Button exterminateButton = new Button("Exterminate");
-        Button confirmButton = new Button("Confirm");
+            controller.initUi(latch);
+
+            Scene scene = new Scene(CommandSelectionRoot, 450, 250);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initUi(CountDownLatch latch) {
+        actualPlayer.setText(game.getCurrentPlayer().getName());
 
         expandButton.setOnAction(event -> toggleCommandSelection("Expand", expandButton));
         exploreButton.setOnAction(event -> toggleCommandSelection("Explore", exploreButton));
@@ -42,20 +65,14 @@ public class CommandSelectionController {
             if (commandOrder.size() == 3) {
                 game.getCurrentPlayer().setCommandOrder(new ArrayList<>(commandOrder));
                 commandOrder.clear();
-                latch.countDown(); // Unblock the thread for the next player
-                stage.close();
+                latch.countDown();
+                confirmButton.getScene().getWindow().hide();
             } else {
                 instruction.setText("Please select all three commands!");
             }
         });
-
-        commands.getChildren().addAll(expandButton, exploreButton, exterminateButton);
-        layout.getChildren().addAll(instruction, commands, confirmButton);
-
-        Scene scene = new Scene(layout, 300, 200);
-        stage.setScene(scene);
-        stage.show();
     }
+
 
     private void toggleCommandSelection(String command, Button button) {
         if (commandOrder.contains(command)) {
