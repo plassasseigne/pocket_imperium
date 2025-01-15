@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameManager {
     private final PhaseManager phaseManager;
@@ -64,6 +65,9 @@ public class GameManager {
                     case 1:
                         startPhase1();
                         break;
+                    case 2:
+                        startPhase2();
+                        break;
                     default:
                         this.addRound();
                         break;
@@ -85,7 +89,9 @@ public class GameManager {
             hexView.getPolygon().setOnMouseClicked(event -> {
                 Player currentPlayer = game.getCurrentPlayer();
                 if (hex.getSystemLevel() == SystemLevel.LEVEL_1 && !hex.getSector().isInitialDeployed()) {
-                    new ExpandCommand(2).execute(gameBoardController, currentPlayer, hexView);
+                    for (int i = 0; i < 2; i++) {
+                        new ExpandCommand().execute(gameBoardController, currentPlayer, hexView);
+                    }
                     //Check for reverse move
                     if (!reverse.get()) {
                         game.changeCurrentPlayerIndex(1);
@@ -123,30 +129,219 @@ public class GameManager {
             game.changeCurrentPlayerIndex(1);
         }
         allPlayersReady.set(true);
+        game.setCurrentPlayerIndex(0);
         nextPhase();
     }
 
+    private void startPhase2() {
+        List<List<Player>> order = sortOrderOfExecution();
+        System.out.println("Phase 2 started");
 
+        // Execute commands sequentially
+        for (int i = 0; i < order.size(); i++) {
+            int commandIndex = i; // Current command index
+            List<Player> currentPlayers = order.get(i);
 
-    private void moveShip() {
-        selectShipView();
+            // For each player in the current list
+            for (Player player : currentPlayers) {
+                CountDownLatch latch = new CountDownLatch(1); // Synchronization for command execution
+
+                // Provide the player with the interface to execute the command
+                int finalI = i;
+                Platform.runLater(() -> {
+                    String command = playerCommands.get(player).get(commandIndex);
+                    System.out.println("Player " + player.getName() + " executing command: " + command);
+
+                    switch (command) {
+                        case "Expand":
+                            executeExpandCommand(player, finalI, latch); // Show interface for Expand
+                            break;
+                        case "Explore":
+                            executeExploreCommand(player, finalI, latch); // Show interface for Explore
+                            break;
+                        case "Exterminate":
+//                            showExterminateInterface(player, latch); // Show interface for Exterminate
+                            System.out.println("Exterminate");
+                            break;
+                        default:
+                            System.err.println("Unknown command: " + command);
+                            latch.countDown(); // Unlock execution if the command is unknown
+                    }
+                });
+                // Wait for the player to finish executing the command
+                try {
+                    latch.await();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                game.setCurrentPlayerIndex(0);
+            }
+        }
+
+        System.out.println("Phase 2 completed");
+        nextPhase();
+    }
+
+    private void executeExpandCommand(Player player, int orderIndex, CountDownLatch phaseLatch) {
+        int amount = getCommandEffectiveness("Expand", orderIndex); // Number of iterations for the Expand command
+        CountDownLatch expandLatch = new CountDownLatch(amount); // Counter for all iterations of the Expand command
+
         for (HexView hexView : gameBoardController.getHexViews()) {
+            Hex hex = hexView.getHex();
             hexView.getPolygon().setOnMouseClicked(event -> {
-                new ExploreCommand(game).execute(selectedShipView, hexView);
+                if (hex.isControlledBy(player) && expandLatch.getCount() > 0) { // Check if there are iterations left
+                    new ExpandCommand().execute(gameBoardController, player, hexView);
+                    expandLatch.countDown(); // Decrease the counter for the Expand command
+
+                    // Check if all iterations are complete
+                    if (expandLatch.getCount() == 0) {
+                        phaseLatch.countDown(); // Unlock execution for the current player
+                    }
+                } else {
+                    gameBoardController.showError("You don't control this planet");
+                }
             });
         }
     }
 
-    private void selectShipView() {
+    private void executeExploreCommand(Player player, int orderIndex, CountDownLatch latch) {
+        int amount = getCommandEffectiveness("Explore", orderIndex); // Number of ships that can be moved
+        System.out.println(amount);
+        Map<ShipView, Integer> moveCounts = new HashMap<>(); // Storing the number of moves for each ship
+        AtomicInteger shipsMoved = new AtomicInteger(0); // Counter for moved ships
+        AtomicBoolean isCurrentShipMoving = new AtomicBoolean(false); // Flag to track if the current ship is moving
+
+        selectShipView(player); // Player selects a ship
+
+        for (HexView hexView : gameBoardController.getHexViews()) {
+            hexView.getPolygon().setOnMouseClicked(event -> {
+                if (selectedShipView != null && shipsMoved.get() < amount) {
+                    // If another ship has already started moving, prevent switching
+                    if (isCurrentShipMoving.get() && !moveCounts.containsKey(selectedShipView)) {
+                        gameBoardController.showError("You must finish moving the current ship before selecting another.");
+                        return;
+                    }
+
+                    // Set the flag that the current ship has started moving
+                    isCurrentShipMoving.set(true);
+
+                    // Get the current move count for the selected ship
+                    moveCounts.putIfAbsent(selectedShipView, 0);
+                    int currentMoveCount = moveCounts.get(selectedShipView);
+
+                    // Calculate the possible move distance
+                    int moveDistance = game.getHexesGraph().getMoveCount(selectedShipView.getHex(), hexView.getHex());
+
+                    // Check if the hex is controlled by another player
+                    if (hexView.getHex().isControlledBy() && !hexView.getHex().getControlledBy().equals(player)) {
+                        gameBoardController.showError("You cannot move to a hex controlled by another player.");
+                        return;
+                    }
+
+                    if (moveDistance >= 0 && moveDistance <= 2 && currentMoveCount + moveDistance <= 2) {
+                        // Execute the move
+                        new ExploreCommand(game).execute(selectedShipView, hexView);
+
+                        // Update the move count for the ship
+                        currentMoveCount += moveDistance;
+                        moveCounts.put(selectedShipView, currentMoveCount);
+
+                        // If the ship has completed all its moves, prevent further movement
+                        if (currentMoveCount == 2) {
+                            shipsMoved.incrementAndGet();
+                            isCurrentShipMoving.set(false); // Reset the flag to allow selecting a new ship
+                        }
+
+                        // If all ships have completed their moves, finish the command execution
+                        if (shipsMoved.get() == amount) {
+                            latch.countDown();
+                        }
+                    } else {
+                        gameBoardController.showError("Invalid move. Check distance or remaining moves.");
+                    }
+                } else if (shipsMoved.get() >= amount) {
+                    gameBoardController.showError("You have moved the maximum number of ships.");
+                }
+            });
+        }
+    }
+
+    private List<List<Player>> sortOrderOfExecution() {
+        // Predefined priority order of commands
+
+        List<String> commandPriority = Arrays.asList("Expand", "Explore", "Exterminate");
+
+        // Final list to maintain the execution order
+        List<List<Player>> finalOrder = new ArrayList<>();
+
+        // Determine the maximum number of commands any player has
+        int maxCommands = playerCommands.values().stream()
+                .mapToInt(List::size)
+                .max()
+                .orElse(0);
+
+        // Process commands position by position
+        for (int commandIndex = 0; commandIndex < maxCommands; commandIndex++) {
+            // Temporary list to collect players for this commandIndex
+            List<Player> currentPlayers = new ArrayList<>();
+
+            for (Map.Entry<Player, List<String>> entry : playerCommands.entrySet()) {
+                Player player = entry.getKey();
+                List<String> commands = entry.getValue();
+
+                // Add the player if they have a command at the current position
+                if (commandIndex < commands.size()) {
+                    currentPlayers.add(player);
+                }
+            }
+
+            // Sort players at this commandIndex based on the global priority
+            int finalCommandIndex = commandIndex;
+            currentPlayers.sort((p1, p2) -> {
+                String command1 = playerCommands.get(p1).get(finalCommandIndex);
+                String command2 = playerCommands.get(p2).get(finalCommandIndex);
+                return Integer.compare(
+                        commandPriority.indexOf(command1),
+                        commandPriority.indexOf(command2)
+                );
+            });
+
+            // Add the sorted list for this commandIndex to the final order
+            finalOrder.add(currentPlayers);
+        }
+
+        // Return the final order as a 2D list
+        return finalOrder;
+    }
+
+    public int getCommandEffectiveness(String commandName, int i) {
+        long expandCount = game.getPlayers().stream()
+                .map(p -> playerCommands.get(p).get(i))
+                .filter(command -> command.equals(commandName))
+                .count();
+
+        return switch ((int) expandCount) {
+            case 1 -> 3;
+            case 2 -> 2;
+            default -> 1;
+        };
+    }
+
+    private void selectShipView(Player player) {
         for (ShipView shipView : gameBoardController.getShipViews()) {
             shipView.getBody().setOnMouseClicked(event -> {
-                if (selectedShipView == null) {
-                    selectedShipView = shipView;
-                    selectedShipView.select();
+                if (shipView.getShip().isOwner(player)) {
+                    if (selectedShipView == null) {
+                        selectedShipView = shipView;
+                        selectedShipView.select();
+                    } else {
+                        selectedShipView.deselect();
+                        selectedShipView = null;
+                    }
                 } else {
-                    selectedShipView.deselect();
-                    selectedShipView = null;
+                    gameBoardController.showError("This is not your ship");
                 }
+
             });
         }
     }

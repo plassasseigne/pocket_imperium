@@ -63,7 +63,9 @@ public class HexesGraph {
         visited.add(start);
 
         int moves = 0;
-
+        if(start.equals(target)) {
+            return 1;
+        }
         // BFS
         while (!queue.isEmpty() && moves < 3) {
             int size = queue.size();

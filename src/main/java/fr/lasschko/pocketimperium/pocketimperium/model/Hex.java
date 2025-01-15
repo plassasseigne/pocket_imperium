@@ -86,6 +86,9 @@ public class Hex {
     public boolean isControlledBy(Player player) {
         return controlledBy != null && controlledBy.equals(player);
     }
+    public boolean isControlledBy() {
+        return controlledBy != null;
+    }
 
     public String toString() {
         return id + ":{ \"x\": " + x + ", \"y\": " + y + "},";
