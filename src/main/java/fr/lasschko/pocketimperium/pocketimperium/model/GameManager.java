@@ -1,6 +1,6 @@
 package fr.lasschko.pocketimperium.pocketimperium.model;
 
-import fr.lasschko.pocketimperium.pocketimperium.view.GameBoardView;
+import fr.lasschko.pocketimperium.pocketimperium.controller.GameBoardController;
 import fr.lasschko.pocketimperium.pocketimperium.view.HexView;
 import javafx.application.Platform;
 
@@ -11,12 +11,12 @@ public class GameManager {
     private final Game game;
     private final AtomicBoolean reverse = new AtomicBoolean(false);
     private int round;
-    private GameBoardView gameBoardView;
+    private GameBoardController gameBoardController;
 
-    public GameManager(Game game, GameBoardView gameBoardView) {
+    public GameManager(Game game, GameBoardController gameBoardController) {
         phaseManager = new PhaseManager(game.getPhase(), game.getTurn());
         this.game = game;
-        this.gameBoardView = gameBoardView;
+        this.gameBoardController = gameBoardController;
         round = game.getRound();
     }
 
@@ -77,12 +77,12 @@ public class GameManager {
     }
 
     public void startPhase0() {
-        for (HexView hexView : gameBoardView.getHexViews()) {
+        for (HexView hexView : gameBoardController.getHexViews()) {
             Hex hex = hexView.getHex();
             hexView.getPolygon().setOnMouseClicked(event -> {
                 Player currentPlayer = game.getCurrentPlayer();
                 if (hex.getSystemLevel() == SystemLevel.LEVEL_1 && !hex.getSector().isInitialDeployed()) {
-                    new ExpandCommand(2).execute(gameBoardView.getRootLayout(), currentPlayer, hexView);
+                    new ExpandCommand(2).execute(gameBoardController.getRootLayout(), currentPlayer, hexView);
                     //Check for reverse move
                     if (!reverse.get()) {
                         game.changeCurrentPlayerIndex(1);
@@ -99,11 +99,9 @@ public class GameManager {
                     }
 
                 } else {
-                    gameBoardView.showError("It inst planet with systel level 1 or this sector is initialy demployed");
+                    gameBoardController.showError("It inst planet with systel level 1 or this sector is initialy demployed");
                 }
             });
         }
-
-
     }
 }

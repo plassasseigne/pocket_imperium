@@ -1,9 +1,9 @@
-package fr.lasschko.pocketimperium.pocketimperium.view;
-
+package fr.lasschko.pocketimperium.pocketimperium.controller;
 
 import fr.lasschko.pocketimperium.pocketimperium.model.*;
+import fr.lasschko.pocketimperium.pocketimperium.view.HexView;
+import fr.lasschko.pocketimperium.pocketimperium.view.SectorView;
 import javafx.animation.FadeTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
@@ -14,36 +14,37 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class GameBoardView implements Initializable {
+public class GameBoardController implements Initializable {
     private final List<HexView> hexViews = new ArrayList<>();
     private final List<SectorView> sectorViews = new ArrayList<>();
-    private final Game game;
-    private final GameManager gameManager;
+
+    private Game game;
+    private GameManager gameManager;
+
     @FXML
     private Rectangle fadeRectangle;
 
     @FXML
     private Pane rootLayout;
 
-
-    public GameBoardView() {
-        game = new Game(); // Getting the "DB" of our game
-        gameManager = new GameManager(game, this);
-    }
+    public GameBoardController() {}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(2), fadeRectangle);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0);
-
         fadeOut.play();
+    }
+
+    public void initData(Game game) {
+        this.game = game;
+        this.gameManager = new GameManager(this.game, this);
 
         createHexBoard();
-        gameManager.start();
 
+        gameManager.start();
     }
 
     public List<HexView> getHexViews(){
@@ -71,8 +72,4 @@ public class GameBoardView implements Initializable {
     public void showError(String message) {
         System.err.println(message);
     }
-
-
-
-
 }

@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.layout.Pane?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720" prefWidth="1280" styleClass="body" stylesheets="@../style/gameboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lasschko.pocketimperium.pocketimperium.view.GameBoardView">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720" prefWidth="1280" styleClass="body" stylesheets="@../style/gameboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lasschko.pocketimperium.pocketimperium.controller.GameBoardController">
     <BorderPane prefHeight="200.0" prefWidth="200.0">
         <left>
             <VBox styleClass="vbox-stats-container" prefHeight="720.0" prefWidth="250.0" BorderPane.alignment="CENTER">

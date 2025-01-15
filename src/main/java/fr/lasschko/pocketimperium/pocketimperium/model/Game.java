@@ -25,7 +25,6 @@ public class Game {
     private int turn = 0;
     private int phase = 0;
 
-
     public Game() {
         gameMap = new GameMap(configuration);
         gameMap.initialize();
@@ -33,9 +32,6 @@ public class Game {
         for (Sector sector : sectors) {
             hexes.addAll(sector.getHexes());
         }
-        players.add(new Player("Eugene", Color.RED));
-        players.add(new Player("Paul", Color.BLUE));
-        players.add(new Player("Yves", Color.GREEN));
     }
 
     public List<Sector> getSectors() {
@@ -48,6 +44,10 @@ public class Game {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 
     public int getCurrentPlayerIndex() {

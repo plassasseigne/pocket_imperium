@@ -85,7 +85,7 @@
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <Label styleClass="psm-label" text="Name : " />
-                                    <TextField styleClass="psm-box" />
+                                    <TextField fx:id="playerName1" styleClass="psm-box" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -126,7 +126,7 @@
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <Label styleClass="psm-label" text="Name : " />
-                                    <TextField styleClass="psm-box" />
+                                    <TextField fx:id="playerName2" styleClass="psm-box" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -167,7 +167,7 @@
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <Label styleClass="psm-label" text="Name : " />
-                                    <TextField styleClass="psm-box" />
+                                    <TextField fx:id="playerName3" styleClass="psm-box" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
