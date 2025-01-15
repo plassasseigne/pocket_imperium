@@ -22,6 +22,7 @@ public class GameBoardController implements Initializable {
     private final List<HexView> hexViews = new ArrayList<>();
     private final List<SectorView> sectorViews = new ArrayList<>();
 
+
     private Game game;
     private GameManager gameManager;
 

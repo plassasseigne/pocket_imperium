@@ -71,9 +71,6 @@ public class GameManager {
                     case 3:
                         startPhase3();
                         break;
-                    default:
-                        this.addRound();
-                        break;
                 }
 
                 // Simulate a delay to avoid tight looping
@@ -83,7 +80,25 @@ public class GameManager {
                     Thread.currentThread().interrupt();
                 }
             }
+            Player winner = getWinner(game.getPlayers());
         }).start();
+
+
+    }
+
+    public Player getWinner(List<Player> players) {
+        Player winner = null;
+        int highestScore = Integer.MIN_VALUE; // Initialize with the smallest possible value
+
+        for (Player player : players) {
+            int playerScore = player.getScore();  // Get the score of the current player
+            if (playerScore > highestScore) {
+                highestScore = playerScore;  // Update highest score
+                winner = player;  // Update winner
+            }
+        }
+
+        return winner;  // Return the player with the highest score
     }
 
     public void startPhase0() {
