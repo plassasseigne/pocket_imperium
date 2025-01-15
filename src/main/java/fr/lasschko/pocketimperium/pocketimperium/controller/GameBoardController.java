@@ -47,6 +47,20 @@ public class GameBoardController implements Initializable {
     @FXML
     private Text playerSName3;
 
+    @FXML
+    private Text playerSShip1;
+    @FXML
+    private Text playerSShip2;
+    @FXML
+    private Text playerSShip3;
+
+    @FXML
+    private Text playerSScore1;
+    @FXML
+    private Text playerSScore2;
+    @FXML
+    private Text playerSScore3;
+
     public GameBoardController() {}
 
     @Override
@@ -78,6 +92,14 @@ public class GameBoardController implements Initializable {
         playerSColor1.setFill(player1.getColor());
         playerSColor2.setFill(player2.getColor());
         playerSColor3.setFill(player3.getColor());
+
+        playerSShip1.setText(String.valueOf(player1.getShips().size()));
+        playerSShip2.setText(String.valueOf(player2.getShips().size()));
+        playerSShip3.setText(String.valueOf(player3.getShips().size()));
+
+        playerSScore1.setText(String.valueOf(player1.getScore()));
+        playerSScore2.setText(String.valueOf(player2.getScore()));
+        playerSScore3.setText(String.valueOf(player3.getScore()));
     }
 
     public List<HexView> getHexViews(){
@@ -108,11 +130,11 @@ public class GameBoardController implements Initializable {
 
     public void addShipView(ShipView shipView) {
         shipViews.add(shipView);
+
+        updateUiContent();
     }
 
     public List<ShipView> getShipViews(){
         return shipViews;
     }
-
-
 }
