@@ -4,7 +4,6 @@ import java.util.*;
 
 public class HexGenerator {
     private final CoordinatePlane coordinatePlane;
-    // hexId have the form {idOfSectorIdOfHex}
     private int hexId = 10;
     private List<Hex> hexes;
 
@@ -19,29 +18,23 @@ public class HexGenerator {
     public void generateHexes(int numberOfHexes, Sector sector) {
         this.hexes = new ArrayList<>();
 
-        // Getting transformed Hexes coor according to the side of the sector
         double[][] transformedHexesCoor = coordinatePlane.getTransformedHexesCoordinates("CENTRAL");
         for (String side : sector.getSideAsList()) {
             transformedHexesCoor = coordinatePlane.getTransformedHexesCoordinates(side, transformedHexesCoor);
         }
 
-        //id for tracking coordinates for particular hex
         int coorId = 0;
         double[] hexCoor = transformedHexesCoor[coorId];
 
-        // Set to all hexes LEVEL_3 if TriPrime
         if (sector.IsTriPrime()) {
-            // Generation of hexes
             for (int i = hexId; i < hexId + numberOfHexes; i++) {
                 hexCoor = transformedHexesCoor[coorId];
                 hexes.add(new Hex(i, hexCoor[0], hexCoor[1], SystemLevel.LEVEL_3, sector));
                 coorId++;
             }
         } else {
-            //Ids of system level
             HashMap<Integer, SystemLevel> systemPlanet = generateSystemPlanet(numberOfHexes);
 
-            // Generation of hexes
             for (int i = hexId; i < hexId + numberOfHexes; i++) {
                 hexCoor = transformedHexesCoor[coorId];
                 hexes.add(new Hex(i, hexCoor[0], hexCoor[1], systemPlanet.getOrDefault(i, SystemLevel.LEVEL_0), sector));
@@ -51,7 +44,6 @@ public class HexGenerator {
         hexId = modifyHexId(sector.getId());
     }
 
-    // Generate Random ids for the system levels planet
     private List<Integer> generateIdForSysLevel(int numberOfHexes) {
         List<Integer> idOfSystemLevel = new ArrayList<>();
 
@@ -68,7 +60,6 @@ public class HexGenerator {
     private HashMap<Integer, SystemLevel> generateSystemPlanet(int numberOfHexes) {
         List<Integer> idOfSystemLevel = generateIdForSysLevel(numberOfHexes);
 
-        // Create a list of levels
         List<SystemLevel> levels = new ArrayList<>();
         levels.add(SystemLevel.LEVEL_1);
         levels.add(SystemLevel.LEVEL_1);
@@ -76,7 +67,6 @@ public class HexGenerator {
 
         Collections.shuffle(levels);
 
-        // Create a dict of system level planets
         HashMap<Integer, SystemLevel> systemLevelsPlanet = new HashMap<>();
         for (int i = 0; i < 3; i++) {
             systemLevelsPlanet.put(idOfSystemLevel.get(i), levels.get(i));

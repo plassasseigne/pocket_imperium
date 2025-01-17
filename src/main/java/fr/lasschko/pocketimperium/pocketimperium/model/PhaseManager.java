@@ -9,7 +9,6 @@ public class PhaseManager {
         this.turn = turn;
     }
 
-
     public int getPhase() {
         return phase;
     }
@@ -36,5 +35,4 @@ public class PhaseManager {
         }
         return turn;
     }
-
 }

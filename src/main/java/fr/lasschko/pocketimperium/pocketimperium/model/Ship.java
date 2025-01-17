@@ -21,6 +21,7 @@ public class Ship {
     public boolean isOwner(Player player){
         return getOwner().equals(player);
     }
+
     public Hex getHex() {
         return hex;
     }
@@ -28,6 +29,7 @@ public class Ship {
     public void setHex(Hex hex) {
         this.hex = hex;
     }
+
     public List<Double> getPosition() {
         return position;
     }

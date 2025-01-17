@@ -15,6 +15,5 @@ public class ExpandCommand {
             hexView.getHex().setControlledBy(player);
             hexView.getHex().addShip(ship);
             hexView.getHex().getSector().setIsInitialDeployed(true);
-
     }
 }

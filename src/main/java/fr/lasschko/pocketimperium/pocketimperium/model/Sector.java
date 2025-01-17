@@ -11,7 +11,6 @@ public class Sector {
     private boolean isScored;
     private boolean isInitialDeployed;
 
-
     public Sector(int id, List<Hex> hexes, String side) {
         this.id = id;
         this.hexes = hexes;
@@ -68,7 +67,6 @@ public class Sector {
         for (Hex hex : hexes) {
             hexesString.append("\n  ").append(hex);
         }
-//        return " Sector " + id + " Side: " + side + "\nHexes:[" + hexesString + "\n]" + "\nTriprime: " + isTriPrime;
         return " \"Sector " + id + "\":" + "\n{" + hexesString + "\n},";
     }
 

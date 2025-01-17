@@ -63,7 +63,6 @@ public class Hex {
     }
 
     public int getShipCount(Player player, GameBoardController gameBoardController) {
-        // Логика подсчета количества кораблей на данной клетке для игрока
         return (int) gameBoardController.getShipViews().stream()
                 .filter(shipView -> shipView.getShip().getOwner().equals(player) && shipView.getHex().equals(this))
                 .count();
@@ -75,7 +74,6 @@ public class Hex {
 
     public void removerFleet(Fleet fleet) {
     }
-
 
     public int hashCode() {
         return Objects.hash(id);
@@ -107,7 +105,4 @@ public class Hex {
     public String toString() {
         return id + ":{ \"x\": " + x + ", \"y\": " + y + "},";
     }
-//    public String toString() {
-//        return String.valueOf(id);
-//    }
 }

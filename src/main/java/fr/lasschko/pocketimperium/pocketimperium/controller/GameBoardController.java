@@ -7,7 +7,6 @@ import fr.lasschko.pocketimperium.pocketimperium.view.ShipView;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -22,11 +21,8 @@ import java.util.ResourceBundle;
 public class GameBoardController implements Initializable {
     private final List<HexView> hexViews = new ArrayList<>();
     private final List<SectorView> sectorViews = new ArrayList<>();
-
-
     private Game game;
     private GameManager gameManager;
-
     private final List<ShipView> shipViews = new ArrayList<>();
 
     @FXML
@@ -152,14 +148,15 @@ public class GameBoardController implements Initializable {
     public List<HexView> getHexViews(){
         return hexViews;
     }
+
     public Pane getRootLayout() {
         return rootLayout;
     }
+
     private void createHexBoard() {
         for (Sector sector : game.getSectors()) {
             addSector(sector);
         }
-        //Draw hexes
         for (HexView hexView : hexViews) {
             rootLayout.getChildren().add(hexView.getPane());
         }
@@ -169,10 +166,6 @@ public class GameBoardController implements Initializable {
         SectorView sectorView = new SectorView(sector);
         sectorViews.add(sectorView);
         hexViews.addAll(sectorView.addHexes());
-    }
-
-    public void showError(String message) {
-        System.err.println(message);
     }
 
     public void addShipView(ShipView shipView) {

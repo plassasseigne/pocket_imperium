@@ -71,7 +71,6 @@ public class Player {
         return numOfShips;
     }
 
-
     @Override
     public int hashCode() {
         return Objects.hash(name);

@@ -1,6 +1,5 @@
 package fr.lasschko.pocketimperium.pocketimperium.model;
 
-
 import java.util.*;
 
 public class HexesGraph {
@@ -20,7 +19,6 @@ public class HexesGraph {
     }
 
     private void linkHexes(List<Hex> hexes) {
-        // Create an adjacency list for hex neighbors
         for (Hex hex : hexes) {
             List<Hex> neighbors = findNeighbors(hex, hexes);
             hexesGraph.put(hex, neighbors);
@@ -42,12 +40,12 @@ public class HexesGraph {
             double x = h1.getX() + direction[0];
             double y = h1.getY() + direction[1];
             if (x == h2.getX() && y == h2.getY()) {
-                // verify the rules of different system level movements
+
                 if (h1.getSystemLevel() == SystemLevel.LEVEL_3 && h2.getSystemLevel() == SystemLevel.LEVEL_3) {
-                    return false; //Impossible to move between LEVEL_3
+                    return false;
                 }
                 if (h1.getSystemLevel() == SystemLevel.LEVEL_3) {
-                    return false; // Impossible to move from LEVEL_3 to LEVEL_<3
+                    return false;
                 }
                 return true;
             }
@@ -66,7 +64,6 @@ public class HexesGraph {
         if(start.equals(target)) {
             return 1;
         }
-        // BFS
         while (!queue.isEmpty() && moves < 3) {
             int size = queue.size();
             moves++;

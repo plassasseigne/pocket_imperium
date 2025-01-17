@@ -73,7 +73,6 @@ public class CommandSelectionController {
         });
     }
 
-
     private void toggleCommandSelection(String command, Button button) {
         if (commandOrder.contains(command)) {
             commandOrder.remove(command);

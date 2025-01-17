@@ -24,16 +24,4 @@ public class Fleet {
     public Hex getCurrentHex() {
         return currentHex;
     }
-
-    public void addShip(Ship ship) {
-    }
-
-    public void removeShip(Ship ship) {
-    }
-
-    public void move(Hex hex) {
-    }
-
-    public void invade(Hex hex) {
-    }
 }
