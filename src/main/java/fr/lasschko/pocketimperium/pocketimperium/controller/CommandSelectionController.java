@@ -14,13 +14,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * Contrôleur pour l'interface de sélectionner des commandes pour chaque
+ * joueur. Elle permet aux joueurs de définir l'ordre voulu pour l'exécution
+ * de chaque commande.
+ *
+ * @author Paul et Yevhenii
+ * @version 1.0
+ */
 public class CommandSelectionController {
+    /**
+     * Boutons représentant le choix de l'ordre des commandes.
+     */
     @FXML
     private Button expandButton;
     @FXML
     private Button exploreButton;
     @FXML
     private Button exterminateButton;
+
+    /**
+     * Bouton de confirmation pour valider l'ordre sélectionné.
+     */
     @FXML
     private Button confirmButton;
 
@@ -32,6 +47,12 @@ public class CommandSelectionController {
     private List<String> commandOrder = new ArrayList<>();
     private Game game;
 
+    /**
+     * Récupère l'instance de la partie actuelle pour avoir toutes les
+     * informations nécessaires.
+     *
+     * @param game
+     */
     public CommandSelectionController(Game game) {
         this.game = game;
     }

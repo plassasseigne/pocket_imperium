@@ -24,13 +24,35 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Contrôleur pour le menu principal de Pocket Imperium. Cette classe gère l'affichage
+ * et les transitions entre le menu principal et l'écran de configuration des joueurs,
+ * ainsi que le lancement de la partie.
+ *
+ * <p>
+ * Elle implémente l'interface {@link javafx.fxml.Initializable}, ce qui lui permet
+ * d'initialiser les différents composants JavaFX après le chargement du fichier FXML.
+ * </p>
+ *
+ * @author Paul et Yevhenii
+ * @version 1.0
+ */
 public class MainMenuController implements Initializable {
+    /**
+     * VBOX représentant le menu principal dans l'interface graphique.
+     */
     @FXML
     private VBox mainMenu;
 
+    /**
+     * VBOX représentant l'écran de configuration des joueurs.
+     */
     @FXML
     private VBox playerSetupMenu;
 
+    /**
+     * SVG du vaisseau de chaque joueur.
+     */
     @FXML
     private SVGPath svgShip1;
     @FXML
@@ -38,6 +60,9 @@ public class MainMenuController implements Initializable {
     @FXML
     private SVGPath svgShip3;
 
+    /**
+     * Sélecteur de couleur de chaque joueur.
+     */
     @FXML
     private ColorPicker colorPicker1;
     @FXML
@@ -45,6 +70,9 @@ public class MainMenuController implements Initializable {
     @FXML
     private ColorPicker colorPicker3;
 
+    /**
+     * Champs de texte pour récupérer le nom de chaque joueur.
+     */
     @FXML
     private TextField playerName1;
     @FXML
@@ -52,6 +80,14 @@ public class MainMenuController implements Initializable {
     @FXML
     private TextField playerName3;
 
+    /**
+     * Initialise le contrôleur après le chargement du fichier FXML.
+     * Ici, on associe un événement au changement de couleur dans chaque
+     * {@link ColorPicker}, afin d'actualiser la couleur du SVG correspondant.
+     *
+     * @param url L'emplacement utilisé pour résoudre les chemins relatifs
+     * @param resourceBundle Les ressources de localisation pour cette classe
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<ColorPicker> colorPickerList = List.of(colorPicker1, colorPicker2, colorPicker3);
@@ -67,11 +103,20 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    /**
+     * Gère l'action du bouton "Exit". Ferme l'application lorsque le bouton est cliqué.
+     *
+     * @param event L'événement généré par l'interface utilisateur
+     */
     @FXML
     private void handleExitButton(ActionEvent event) {
         System.exit(0);
     }
 
+    /**
+     * Gère l'action du bouton "Play". Lance les animations pour faire la transition
+     * entre le menu principal et l'écran de configuration des joueurs.
+     */
     @FXML
     private void handlePlayButton() {
         FadeTransition fadeOut = new FadeTransition(Duration.millis(600), mainMenu);
@@ -89,6 +134,10 @@ public class MainMenuController implements Initializable {
         slideIn.play();
     }
 
+    /**
+     * Gère l'action du bouton "Cancel". Lance les animations pour faire la transition
+     * inversée entre l'écran de configuration des joueurs et le menu principal.
+     */
     @FXML
     private void handleCancelButton() {
         TranslateTransition slideOut = new TranslateTransition(Duration.millis(600), playerSetupMenu);
@@ -104,6 +153,13 @@ public class MainMenuController implements Initializable {
         fadeIn.play();
     }
 
+    /**
+     * Gère l'action du bouton "Start". Vérifie que les noms de joueurs ne sont pas
+     * vides, puis charge la vue du plateau de jeu et initialise le contrôleur associé
+     * avec la configuration du {@link Game}.
+     *
+     * @param event L'événement généré par l'interface utilisateur
+     */
     @FXML
     private void startGame(ActionEvent event) {
         Game game = getGame();
@@ -130,6 +186,13 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    /**
+     * Crée et retourne une nouvelle instance de {@link Game} à partir des noms et
+     * couleurs saisis par l'utilisateur. Les joueurs sont encapsulés dans un
+     * {@link List} pour être ensuite utilisés dans le jeu.
+     *
+     * @return Un objet {@link Game} initialisé avec les informations des joueurs
+     */
     private Game getGame() {
         String name1 = playerName1.getText();
         Color color1 = colorPicker1.getValue();

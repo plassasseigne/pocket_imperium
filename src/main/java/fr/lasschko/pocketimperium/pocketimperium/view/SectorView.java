@@ -9,7 +9,6 @@ import java.util.List;
 public class SectorView{
     private final Sector sector;
 
-
     public SectorView(Sector sector) {
         this.sector = sector;
     }

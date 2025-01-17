@@ -27,6 +27,7 @@ public class ShipView {
     public Ship getShip() {
         return ship;
     }
+
     public Hex getHex(){
         return ship.getHex();
     }
@@ -34,9 +35,11 @@ public class ShipView {
     public void select(){
         this.body.setStrokeWidth(2);
     }
+
     public void deselect(){
         this.body.setStrokeWidth(1);
     }
+
     public void display() {
         double coef = Math.random() * 20;
         double x = ship.getPosition().getFirst() + pane_x-10 + coef;
@@ -44,6 +47,7 @@ public class ShipView {
         body.setLayoutX(x);
         body.setLayoutY(y);
     }
+
     public void display(Hex hex) {
         double coef = Math.random() * 20;
         double x = hex.getX() + pane_x-10 + coef;

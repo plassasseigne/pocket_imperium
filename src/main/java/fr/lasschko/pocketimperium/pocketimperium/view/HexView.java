@@ -5,9 +5,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HexView {
     private final Hex hex;
     private final Pane pane;
@@ -77,6 +74,4 @@ public class HexView {
             default -> Color.LIGHTGRAY;
         };
     }
-
-
 }
