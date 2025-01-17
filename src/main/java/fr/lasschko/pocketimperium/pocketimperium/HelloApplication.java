@@ -8,6 +8,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Classe principale du jeu Pocket Imperium.
+ * Elle hérite de {@link javafx.application.Application} et définit le point d'entrée
+ * de l'interface graphique de l'application.
+ *
+ * <p>
+ * Cette classe charge la scène principale à partir du FXML {@code main-menu.fxml},
+ * applique les feuilles de style, puis affiche la fenêtre (Stage) aux dimensions
+ * spécifiées.
+ * </p>
+ *
+ * @author Paul et Yevhenii
+ * @version 1.0
+ */
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
