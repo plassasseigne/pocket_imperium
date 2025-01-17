@@ -6,29 +6,23 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250" prefWidth="450" styleClass="cs-body" stylesheets="@../style/command-selection.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
-         <children>
-            <VBox alignment="CENTER" spacing="10.0">
-               <children>
-                  <Text fx:id="actualPlayer" styleClass="cs-player" text="Player" />
-                  <Text fx:id="instruction" styleClass="cs-instruction" text="Select the order of your commands" textAlignment="CENTER" />
-               </children>
-            </VBox>
-            <HBox alignment="CENTER" prefHeight="65.0" prefWidth="300.0" spacing="15.0">
-               <children>
-                  <Button fx:id="expandButton" mnemonicParsing="false" styleClass="cs-card, expand-card" text="Expand" />
-                  <Button fx:id="exploreButton" mnemonicParsing="false" styleClass="cs-card, explore-card" text="Explore" />
-                  <Button fx:id="exterminateButton" mnemonicParsing="false" styleClass="cs-card, exterminate-card" text="Exterminate" />
-               </children>
-            </HBox>
-            <VBox alignment="CENTER">
-               <children>
-                  <Button fx:id="confirmButton" styleClass="main-button" mnemonicParsing="false" text="Confirm" />
-               </children>
-            </VBox>
-         </children>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250"
+           prefWidth="450" styleClass="cs-body" stylesheets="@../style/command-selection.css"
+           xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+      <VBox alignment="CENTER" spacing="10.0">
+         <Text fx:id="actualPlayer" styleClass="cs-player" text="Player"/>
+         <Text fx:id="instruction" styleClass="cs-instruction" text="Select the order of your commands"
+               textAlignment="CENTER"/>
       </VBox>
-   </children>
+      <HBox alignment="CENTER" prefHeight="65.0" prefWidth="300.0" spacing="15.0">
+         <Button fx:id="expandButton" mnemonicParsing="false" styleClass="cs-card, expand-card" text="Expand"/>
+         <Button fx:id="exploreButton" mnemonicParsing="false" styleClass="cs-card, explore-card" text="Explore"/>
+         <Button fx:id="exterminateButton" mnemonicParsing="false" styleClass="cs-card, exterminate-card"
+                 text="Exterminate"/>
+      </HBox>
+      <VBox alignment="CENTER">
+         <Button fx:id="confirmButton" styleClass="main-button" mnemonicParsing="false" text="Confirm"/>
+      </VBox>
+   </VBox>
 </StackPane>

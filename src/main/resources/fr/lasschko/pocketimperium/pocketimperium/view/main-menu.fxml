@@ -19,182 +19,156 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="mm-body" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lasschko.pocketimperium.pocketimperium.controller.MainMenuController">
-   <children>
-      <!-- Main Menu -->
-      <VBox fx:id="mainMenu" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="0.0" spacing="40.0">
-         <children>
-            <Region prefHeight="200.0" prefWidth="200.0" />
-            <ImageView fitHeight="200.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
-               <Image url="@../../../../../img/pocket_imperium_logo.png" />
-            </ImageView>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15">
-               <children>
-                  <Button fx:id="playButton" mnemonicParsing="false" onAction="#handlePlayButton" styleClass="button, main-button" text="Play Game" />
-                  <Button fx:id="loadButton" mnemonicParsing="false" styleClass="button, main-button" text="Load" />
-                  <Button fx:id="exitButton" mnemonicParsing="false" onAction="#handleExitButton" styleClass="button, main-button" text="Exit">
-                     <VBox.margin>
-                        <Insets top="15.0" />
-                     </VBox.margin></Button>
-               </children>
-            </VBox>
-            <Region prefHeight="200.0" prefWidth="200.0" />
-            <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="1283.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="mm-btext" text="Version: 1.0" />
-                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="mm-btext" text="Pocket Imperium © 2025 LO02 Entertainment, Inc. Tous droits réservés" textAlignment="CENTER" />
-               </children>
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-            </HBox>
-         </children>
-      </VBox>
-
-      <!-- Player Setup Menu -->
-      <VBox fx:id="playerSetupMenu" alignment="CENTER" maxHeight="475.0" maxWidth="740.0" minHeight="450.0" minWidth="740.0" prefHeight="475.0" prefWidth="740.0" styleClass="psm-body" stylesheets="@../style/player-setup-menu.css" visible="false">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <!-- Player 1 -->
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Text styleClass="psm-title" text="Player 1" textAlignment="CENTER" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0">
-                           <children>
-                              <Rectangle arcHeight="30.0" arcWidth="30.0" height="156.0" styleClass="psm-bg-ship" width="156.0" />
-                              <SVGPath fx:id="svgShip1" content="M29.5996 91.5217L11.1386 94.2995C9.6707 94.5186 8.21024 93.8534 7.43195 92.6067L0.548105 81.5747C0.164136 80.9591 -0.0113364 80.2585 0.0088725 79.5612C0.0059151 79.5029 0 79.4461 0 79.3873V56.0504C0 54.0374 1.65516 52.4063 3.69675 52.4063C5.73834 52.4063 7.3935 54.0374 7.3935 56.0504V65.7325L22.1726 39.7874L29.5996 52.2819V91.5217ZM90.3033 52.4058C88.2612 52.4058 86.6065 54.0369 86.6065 56.0499V65.732L71.8279 39.7874L64.4008 52.2824V91.5222L82.8619 94.3C84.3288 94.5196 85.7903 93.8539 86.569 92.6067L93.4524 81.5747C93.8364 80.9596 94.0113 80.2589 93.9911 79.5617C93.9941 79.5034 94 79.4466 94 79.3878V56.0509C94 54.0374 92.3448 52.4058 90.3033 52.4058ZM57.0074 91.6757L50.6968 96.3144V102.356C50.6968 104.369 49.0421 106 47 106C44.9584 106 43.3032 104.369 43.3032 102.356V96.3144L36.9926 91.6757V51.2931C36.9926 50.6454 36.8177 50.0094 36.4855 49.4506L26.3657 32.4253L43.7764 1.85996C44.431 0.711331 45.6637 0 47 0C48.3367 0 49.569 0.711331 50.2236 1.85996L67.6343 32.4253L57.5145 49.4506C57.1823 50.0094 57.0074 50.6454 57.0074 51.2931V91.6757ZM56.9901 33.3378C58.5644 32.057 58.7877 29.7603 57.4889 28.2074C57.0611 27.6958 53.1322 23.2106 47.0937 23.2106C41.1182 23.2106 37.0281 27.6238 36.5816 28.1272C35.2369 29.6417 35.3828 31.9545 36.9197 33.2795C37.6241 33.8869 38.4935 34.1857 39.3591 34.1857C40.3818 34.1857 41.3987 33.7683 42.1267 32.9477C42.7517 32.2664 44.8623 30.4983 47.0941 30.4983C49.7144 30.4983 51.7861 32.8456 51.7861 32.8456C53.0853 34.3985 55.4153 34.6186 56.9901 33.3378Z" fill="white" />
-                           </children>
-                        </StackPane>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label styleClass="psm-label" text="Type : " />
-                                    <ChoiceBox styleClass="psm-box" value="Human">
-                                       <items>
-                                          <FXCollections fx:factory="observableArrayList">
-                                             <String fx:value="Human" />
-                                             <String fx:value="Bot" />
-                                          </FXCollections>
-                                       </items>
-                                    </ChoiceBox>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label styleClass="psm-label" text="Name : " />
-                                    <TextField fx:id="playerName1" styleClass="psm-box" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label styleClass="psm-label" text="Color : " />
-                                    <ColorPicker fx:id="colorPicker1" maxHeight="25.0" maxWidth="125.0" minHeight="25.0" minWidth="125.0" prefHeight="25.0" prefWidth="125.0" styleClass="psm-box" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
-                  <!-- Player 2 -->
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Text styleClass="psm-title" text="Player 2" textAlignment="CENTER" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0">
-                           <children>
-                              <Rectangle arcHeight="30.0" arcWidth="30.0" height="156.0" styleClass="psm-bg-ship" width="156.0" />
-                              <SVGPath fx:id="svgShip2" content="M29.5996 91.5217L11.1386 94.2995C9.6707 94.5186 8.21024 93.8534 7.43195 92.6067L0.548105 81.5747C0.164136 80.9591 -0.0113364 80.2585 0.0088725 79.5612C0.0059151 79.5029 0 79.4461 0 79.3873V56.0504C0 54.0374 1.65516 52.4063 3.69675 52.4063C5.73834 52.4063 7.3935 54.0374 7.3935 56.0504V65.7325L22.1726 39.7874L29.5996 52.2819V91.5217ZM90.3033 52.4058C88.2612 52.4058 86.6065 54.0369 86.6065 56.0499V65.732L71.8279 39.7874L64.4008 52.2824V91.5222L82.8619 94.3C84.3288 94.5196 85.7903 93.8539 86.569 92.6067L93.4524 81.5747C93.8364 80.9596 94.0113 80.2589 93.9911 79.5617C93.9941 79.5034 94 79.4466 94 79.3878V56.0509C94 54.0374 92.3448 52.4058 90.3033 52.4058ZM57.0074 91.6757L50.6968 96.3144V102.356C50.6968 104.369 49.0421 106 47 106C44.9584 106 43.3032 104.369 43.3032 102.356V96.3144L36.9926 91.6757V51.2931C36.9926 50.6454 36.8177 50.0094 36.4855 49.4506L26.3657 32.4253L43.7764 1.85996C44.431 0.711331 45.6637 0 47 0C48.3367 0 49.569 0.711331 50.2236 1.85996L67.6343 32.4253L57.5145 49.4506C57.1823 50.0094 57.0074 50.6454 57.0074 51.2931V91.6757ZM56.9901 33.3378C58.5644 32.057 58.7877 29.7603 57.4889 28.2074C57.0611 27.6958 53.1322 23.2106 47.0937 23.2106C41.1182 23.2106 37.0281 27.6238 36.5816 28.1272C35.2369 29.6417 35.3828 31.9545 36.9197 33.2795C37.6241 33.8869 38.4935 34.1857 39.3591 34.1857C40.3818 34.1857 41.3987 33.7683 42.1267 32.9477C42.7517 32.2664 44.8623 30.4983 47.0941 30.4983C49.7144 30.4983 51.7861 32.8456 51.7861 32.8456C53.0853 34.3985 55.4153 34.6186 56.9901 33.3378Z" fill="white" />
-                           </children>
-                        </StackPane>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label styleClass="psm-label" text="Type : " />
-                                    <ChoiceBox styleClass="psm-box" value="Human">
-                                       <items>
-                                          <FXCollections fx:factory="observableArrayList">
-                                             <String fx:value="Human" />
-                                             <String fx:value="Bot" />
-                                          </FXCollections>
-                                       </items>
-                                    </ChoiceBox>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label styleClass="psm-label" text="Name : " />
-                                    <TextField fx:id="playerName2" styleClass="psm-box" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label styleClass="psm-label" text="Color : " />
-                                    <ColorPicker fx:id="colorPicker2" styleClass="psm-box" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
-                  <!-- Player 3 -->
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Text styleClass="psm-title" text="Player 3" textAlignment="CENTER" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0">
-                           <children>
-                              <Rectangle arcHeight="30.0" arcWidth="30.0" height="156.0" styleClass="psm-bg-ship" width="156.0" />
-                              <SVGPath fx:id="svgShip3" content="M29.5996 91.5217L11.1386 94.2995C9.6707 94.5186 8.21024 93.8534 7.43195 92.6067L0.548105 81.5747C0.164136 80.9591 -0.0113364 80.2585 0.0088725 79.5612C0.0059151 79.5029 0 79.4461 0 79.3873V56.0504C0 54.0374 1.65516 52.4063 3.69675 52.4063C5.73834 52.4063 7.3935 54.0374 7.3935 56.0504V65.7325L22.1726 39.7874L29.5996 52.2819V91.5217ZM90.3033 52.4058C88.2612 52.4058 86.6065 54.0369 86.6065 56.0499V65.732L71.8279 39.7874L64.4008 52.2824V91.5222L82.8619 94.3C84.3288 94.5196 85.7903 93.8539 86.569 92.6067L93.4524 81.5747C93.8364 80.9596 94.0113 80.2589 93.9911 79.5617C93.9941 79.5034 94 79.4466 94 79.3878V56.0509C94 54.0374 92.3448 52.4058 90.3033 52.4058ZM57.0074 91.6757L50.6968 96.3144V102.356C50.6968 104.369 49.0421 106 47 106C44.9584 106 43.3032 104.369 43.3032 102.356V96.3144L36.9926 91.6757V51.2931C36.9926 50.6454 36.8177 50.0094 36.4855 49.4506L26.3657 32.4253L43.7764 1.85996C44.431 0.711331 45.6637 0 47 0C48.3367 0 49.569 0.711331 50.2236 1.85996L67.6343 32.4253L57.5145 49.4506C57.1823 50.0094 57.0074 50.6454 57.0074 51.2931V91.6757ZM56.9901 33.3378C58.5644 32.057 58.7877 29.7603 57.4889 28.2074C57.0611 27.6958 53.1322 23.2106 47.0937 23.2106C41.1182 23.2106 37.0281 27.6238 36.5816 28.1272C35.2369 29.6417 35.3828 31.9545 36.9197 33.2795C37.6241 33.8869 38.4935 34.1857 39.3591 34.1857C40.3818 34.1857 41.3987 33.7683 42.1267 32.9477C42.7517 32.2664 44.8623 30.4983 47.0941 30.4983C49.7144 30.4983 51.7861 32.8456 51.7861 32.8456C53.0853 34.3985 55.4153 34.6186 56.9901 33.3378Z" fill="white" />
-                           </children>
-                        </StackPane>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label styleClass="psm-label" text="Type : " />
-                                    <ChoiceBox styleClass="psm-box" value="Human">
-                                       <items>
-                                          <FXCollections fx:factory="observableArrayList">
-                                             <String fx:value="Human" />
-                                             <String fx:value="Bot" />
-                                          </FXCollections>
-                                       </items>
-                                    </ChoiceBox>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label styleClass="psm-label" text="Name : " />
-                                    <TextField fx:id="playerName3" styleClass="psm-box" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label styleClass="psm-label" text="Color : " />
-                                    <ColorPicker fx:id="colorPicker3" styleClass="psm-box" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <Region prefHeight="200.0" prefWidth="200.0" />
-            <HBox prefHeight="100.0" prefWidth="732.0" spacing="20">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#startGame" styleClass="button, second-button" text="Start" />
-                  <Button mnemonicParsing="false" onAction="#handleCancelButton" styleClass="button, main-button" text="Cancel" />
-               </children></HBox>
-         </children>
-         <padding>
-            <Insets bottom="25.0" left="40.0" right="40.0" top="25.0" />
-         </padding></VBox>
-   </children>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
+           prefWidth="1280.0" styleClass="mm-body" xmlns="http://javafx.com/javafx/23.0.1"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="fr.lasschko.pocketimperium.pocketimperium.controller.MainMenuController">
    <stylesheets>
-      <URL value="@../style/main-menu.css" />
-      <URL value="@../style/button.css" />
+      <URL value="@../style/main-menu.css"/>
+      <URL value="@../style/button.css"/>
    </stylesheets>
+   <!-- Main Menu -->
+   <VBox fx:id="mainMenu" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="0.0" spacing="40.0">
+      <Region prefHeight="200.0" prefWidth="200.0"/>
+      <ImageView fitHeight="200.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../../../../../img/pocket_imperium_logo.png"/>
+      </ImageView>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15">
+         <Button mnemonicParsing="false" onAction="#handlePlayButton"
+                 styleClass="button, main-button" text="Play Game"/>
+         <Button mnemonicParsing="false" styleClass="button, main-button" text="Load"/>
+         <Button mnemonicParsing="false" onAction="#handleExitButton"
+                 styleClass="button, main-button" text="Exit">
+            <VBox.margin>
+               <Insets top="15.0"/>
+            </VBox.margin>
+         </Button>
+      </VBox>
+      <Region prefHeight="200.0" prefWidth="200.0"/>
+      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="1283.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+         </padding>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="mm-btext" text="Version: 1.0"/>
+         <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="mm-btext"
+               text="Pocket Imperium © 2025 LO02 Entertainment, Inc. Tous droits réservés"
+               textAlignment="CENTER"/>
+      </HBox>
+   </VBox>
+
+   <!-- Player Setup Menu -->
+   <VBox fx:id="playerSetupMenu" alignment="CENTER" maxHeight="475.0" maxWidth="740.0" minHeight="450.0"
+         minWidth="740.0" prefHeight="475.0" prefWidth="740.0" styleClass="psm-body"
+         stylesheets="@../style/player-setup-menu.css" visible="false">
+      <padding>
+         <Insets bottom="25.0" left="40.0" right="40.0" top="25.0"/>
+      </padding>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <!-- Player 1 -->
+         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0" HBox.hgrow="ALWAYS">
+            <Text styleClass="psm-title" text="Player 1" textAlignment="CENTER"/>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <Rectangle arcHeight="30.0" arcWidth="30.0" height="156.0" styleClass="psm-bg-ship"
+                          width="156.0"/>
+               <SVGPath fx:id="svgShip1"
+                        content="M29.5996 91.5217L11.1386 94.2995C9.6707 94.5186 8.21024 93.8534 7.43195 92.6067L0.548105 81.5747C0.164136 80.9591 -0.0113364 80.2585 0.0088725 79.5612C0.0059151 79.5029 0 79.4461 0 79.3873V56.0504C0 54.0374 1.65516 52.4063 3.69675 52.4063C5.73834 52.4063 7.3935 54.0374 7.3935 56.0504V65.7325L22.1726 39.7874L29.5996 52.2819V91.5217ZM90.3033 52.4058C88.2612 52.4058 86.6065 54.0369 86.6065 56.0499V65.732L71.8279 39.7874L64.4008 52.2824V91.5222L82.8619 94.3C84.3288 94.5196 85.7903 93.8539 86.569 92.6067L93.4524 81.5747C93.8364 80.9596 94.0113 80.2589 93.9911 79.5617C93.9941 79.5034 94 79.4466 94 79.3878V56.0509C94 54.0374 92.3448 52.4058 90.3033 52.4058ZM57.0074 91.6757L50.6968 96.3144V102.356C50.6968 104.369 49.0421 106 47 106C44.9584 106 43.3032 104.369 43.3032 102.356V96.3144L36.9926 91.6757V51.2931C36.9926 50.6454 36.8177 50.0094 36.4855 49.4506L26.3657 32.4253L43.7764 1.85996C44.431 0.711331 45.6637 0 47 0C48.3367 0 49.569 0.711331 50.2236 1.85996L67.6343 32.4253L57.5145 49.4506C57.1823 50.0094 57.0074 50.6454 57.0074 51.2931V91.6757ZM56.9901 33.3378C58.5644 32.057 58.7877 29.7603 57.4889 28.2074C57.0611 27.6958 53.1322 23.2106 47.0937 23.2106C41.1182 23.2106 37.0281 27.6238 36.5816 28.1272C35.2369 29.6417 35.3828 31.9545 36.9197 33.2795C37.6241 33.8869 38.4935 34.1857 39.3591 34.1857C40.3818 34.1857 41.3987 33.7683 42.1267 32.9477C42.7517 32.2664 44.8623 30.4983 47.0941 30.4983C49.7144 30.4983 51.7861 32.8456 51.7861 32.8456C53.0853 34.3985 55.4153 34.6186 56.9901 33.3378Z"
+                        fill="white"/>
+            </StackPane>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <Label styleClass="psm-label" text="Type : "/>
+                  <ChoiceBox styleClass="psm-box" value="Human">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="Human"/>
+                           <String fx:value="Bot"/>
+                        </FXCollections>
+                     </items>
+                  </ChoiceBox>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <Label styleClass="psm-label" text="Name : "/>
+                  <TextField fx:id="playerName1" styleClass="psm-box"/>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <Label styleClass="psm-label" text="Color : "/>
+                  <ColorPicker fx:id="colorPicker1" maxHeight="25.0" maxWidth="125.0" minHeight="25.0"
+                               minWidth="125.0" prefHeight="25.0" prefWidth="125.0"
+                               styleClass="psm-box"/>
+               </HBox>
+            </VBox>
+         </VBox>
+         <!-- Player 2 -->
+         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0" HBox.hgrow="ALWAYS">
+            <Text styleClass="psm-title" text="Player 2" textAlignment="CENTER"/>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <Rectangle arcHeight="30.0" arcWidth="30.0" height="156.0" styleClass="psm-bg-ship"
+                          width="156.0"/>
+               <SVGPath fx:id="svgShip2"
+                        content="M29.5996 91.5217L11.1386 94.2995C9.6707 94.5186 8.21024 93.8534 7.43195 92.6067L0.548105 81.5747C0.164136 80.9591 -0.0113364 80.2585 0.0088725 79.5612C0.0059151 79.5029 0 79.4461 0 79.3873V56.0504C0 54.0374 1.65516 52.4063 3.69675 52.4063C5.73834 52.4063 7.3935 54.0374 7.3935 56.0504V65.7325L22.1726 39.7874L29.5996 52.2819V91.5217ZM90.3033 52.4058C88.2612 52.4058 86.6065 54.0369 86.6065 56.0499V65.732L71.8279 39.7874L64.4008 52.2824V91.5222L82.8619 94.3C84.3288 94.5196 85.7903 93.8539 86.569 92.6067L93.4524 81.5747C93.8364 80.9596 94.0113 80.2589 93.9911 79.5617C93.9941 79.5034 94 79.4466 94 79.3878V56.0509C94 54.0374 92.3448 52.4058 90.3033 52.4058ZM57.0074 91.6757L50.6968 96.3144V102.356C50.6968 104.369 49.0421 106 47 106C44.9584 106 43.3032 104.369 43.3032 102.356V96.3144L36.9926 91.6757V51.2931C36.9926 50.6454 36.8177 50.0094 36.4855 49.4506L26.3657 32.4253L43.7764 1.85996C44.431 0.711331 45.6637 0 47 0C48.3367 0 49.569 0.711331 50.2236 1.85996L67.6343 32.4253L57.5145 49.4506C57.1823 50.0094 57.0074 50.6454 57.0074 51.2931V91.6757ZM56.9901 33.3378C58.5644 32.057 58.7877 29.7603 57.4889 28.2074C57.0611 27.6958 53.1322 23.2106 47.0937 23.2106C41.1182 23.2106 37.0281 27.6238 36.5816 28.1272C35.2369 29.6417 35.3828 31.9545 36.9197 33.2795C37.6241 33.8869 38.4935 34.1857 39.3591 34.1857C40.3818 34.1857 41.3987 33.7683 42.1267 32.9477C42.7517 32.2664 44.8623 30.4983 47.0941 30.4983C49.7144 30.4983 51.7861 32.8456 51.7861 32.8456C53.0853 34.3985 55.4153 34.6186 56.9901 33.3378Z"
+                        fill="white"/>
+            </StackPane>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <Label styleClass="psm-label" text="Type : "/>
+                  <ChoiceBox styleClass="psm-box" value="Human">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="Human"/>
+                           <String fx:value="Bot"/>
+                        </FXCollections>
+                     </items>
+                  </ChoiceBox>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <Label styleClass="psm-label" text="Name : "/>
+                  <TextField fx:id="playerName2" styleClass="psm-box"/>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <Label styleClass="psm-label" text="Color : "/>
+                  <ColorPicker fx:id="colorPicker2" styleClass="psm-box"/>
+               </HBox>
+            </VBox>
+         </VBox>
+         <!-- Player 3 -->
+         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0" HBox.hgrow="ALWAYS">
+            <Text styleClass="psm-title" text="Player 3" textAlignment="CENTER"/>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <Rectangle arcHeight="30.0" arcWidth="30.0" height="156.0" styleClass="psm-bg-ship"
+                          width="156.0"/>
+               <SVGPath fx:id="svgShip3"
+                        content="M29.5996 91.5217L11.1386 94.2995C9.6707 94.5186 8.21024 93.8534 7.43195 92.6067L0.548105 81.5747C0.164136 80.9591 -0.0113364 80.2585 0.0088725 79.5612C0.0059151 79.5029 0 79.4461 0 79.3873V56.0504C0 54.0374 1.65516 52.4063 3.69675 52.4063C5.73834 52.4063 7.3935 54.0374 7.3935 56.0504V65.7325L22.1726 39.7874L29.5996 52.2819V91.5217ZM90.3033 52.4058C88.2612 52.4058 86.6065 54.0369 86.6065 56.0499V65.732L71.8279 39.7874L64.4008 52.2824V91.5222L82.8619 94.3C84.3288 94.5196 85.7903 93.8539 86.569 92.6067L93.4524 81.5747C93.8364 80.9596 94.0113 80.2589 93.9911 79.5617C93.9941 79.5034 94 79.4466 94 79.3878V56.0509C94 54.0374 92.3448 52.4058 90.3033 52.4058ZM57.0074 91.6757L50.6968 96.3144V102.356C50.6968 104.369 49.0421 106 47 106C44.9584 106 43.3032 104.369 43.3032 102.356V96.3144L36.9926 91.6757V51.2931C36.9926 50.6454 36.8177 50.0094 36.4855 49.4506L26.3657 32.4253L43.7764 1.85996C44.431 0.711331 45.6637 0 47 0C48.3367 0 49.569 0.711331 50.2236 1.85996L67.6343 32.4253L57.5145 49.4506C57.1823 50.0094 57.0074 50.6454 57.0074 51.2931V91.6757ZM56.9901 33.3378C58.5644 32.057 58.7877 29.7603 57.4889 28.2074C57.0611 27.6958 53.1322 23.2106 47.0937 23.2106C41.1182 23.2106 37.0281 27.6238 36.5816 28.1272C35.2369 29.6417 35.3828 31.9545 36.9197 33.2795C37.6241 33.8869 38.4935 34.1857 39.3591 34.1857C40.3818 34.1857 41.3987 33.7683 42.1267 32.9477C42.7517 32.2664 44.8623 30.4983 47.0941 30.4983C49.7144 30.4983 51.7861 32.8456 51.7861 32.8456C53.0853 34.3985 55.4153 34.6186 56.9901 33.3378Z"
+                        fill="white"/>
+            </StackPane>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <Label styleClass="psm-label" text="Type : "/>
+                  <ChoiceBox styleClass="psm-box" value="Human">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="Human"/>
+                           <String fx:value="Bot"/>
+                        </FXCollections>
+                     </items>
+                  </ChoiceBox>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <Label styleClass="psm-label" text="Name : "/>
+                  <TextField fx:id="playerName3" styleClass="psm-box"/>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <Label styleClass="psm-label" text="Color : "/>
+                  <ColorPicker fx:id="colorPicker3" styleClass="psm-box"/>
+               </HBox>
+            </VBox>
+         </VBox>
+      </HBox>
+      <Region prefHeight="200.0" prefWidth="200.0"/>
+      <HBox prefHeight="100.0" prefWidth="732.0" spacing="20">
+         <Button mnemonicParsing="false" onAction="#startGame" styleClass="button, second-button" text="Start"/>
+         <Button mnemonicParsing="false" onAction="#handleCancelButton" styleClass="button, main-button"
+                 text="Cancel"/>
+      </HBox>
+   </VBox>
 </StackPane>
