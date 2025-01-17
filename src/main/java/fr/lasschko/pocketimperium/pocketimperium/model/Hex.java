@@ -72,8 +72,6 @@ public class Hex {
         return ships;
     }
 
-    public void removerFleet(Fleet fleet) {
-    }
 
     public int hashCode() {
         return Objects.hash(id);

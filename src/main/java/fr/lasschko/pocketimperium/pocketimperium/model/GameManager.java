@@ -12,6 +12,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Classe gérant la logique du jeu, les phases, les actions des joueurs et la communication avec l'interface utilisateur.
+ * Elle orchestre les différentes phases du jeu et permet aux joueurs d'effectuer des actions comme l'expansion, l'exploration, etc.
+ */
 public class GameManager {
     private final PhaseManager phaseManager;
     private final Game game;
@@ -23,6 +27,12 @@ public class GameManager {
     private ShipView selectedShipView;
     private int round;
 
+    /**
+     * Constructeur pour initialiser le gestionnaire de jeu.
+     *
+     * @param game                Le jeu associé.
+     * @param gameBoardController Le contrôleur de la carte du jeu.
+     */
     public GameManager(Game game, GameBoardController gameBoardController) {
         this.phaseManager = new PhaseManager(game.getPhase(), game.getTurn());
         this.game = game;
@@ -33,30 +43,55 @@ public class GameManager {
         this.playerCommands = new LinkedHashMap<>();
     }
 
+    /**
+     * Récupère la phase actuelle du jeu.
+     *
+     * @return Le numéro de la phase actuelle.
+     */
     public int getPhase() {
         gameBoardController.updatePhaseText(phaseManager.getPhase());
         return phaseManager.getPhase();
     }
 
+    /**
+     * Passe à la phase suivante.
+     */
     public void nextPhase() {
         phaseManager.nextPhase();
         game.setPhase(phaseManager.getPhase());
     }
 
+    /**
+     * Récupère le numéro de la manche actuelle.
+     *
+     * @return Le numéro de la manche actuelle.
+     */
     public int getRound() {
         return round;
     }
 
+    /**
+     * Définit le numéro de la manche actuelle.
+     *
+     * @param round Le numéro de la nouvelle manche.
+     */
     public void setRound(int round) {
         this.round = round;
         gameBoardController.updateRoundText(round);
         game.setRound(this.round);
     }
 
+    /**
+     * Incrémente le numéro de la manche actuelle de 1.
+     */
     public void addRound() {
         setRound(getRound() + 1);
     }
 
+    /**
+     * Démarre le jeu en lançant les différentes phases dans un thread séparé.
+     * La boucle continue jusqu'à la fin des 9 manches.
+     */
     public void start() {
         new Thread(() -> {
             while (this.getRound() < 9) {
@@ -85,6 +120,12 @@ public class GameManager {
         }).start();
     }
 
+    /**
+     * Détermine le joueur gagnant en fonction du score.
+     *
+     * @param players Liste des joueurs.
+     * @return Le joueur avec le score le plus élevé.
+     */
     public Player getWinner(List<Player> players) {
         Player winner = null;
         int highestScore = Integer.MIN_VALUE;
@@ -100,6 +141,9 @@ public class GameManager {
         return winner;
     }
 
+    /**
+     * Démarre la phase 0 du jeu, permettant aux joueurs d'expansionner leurs systèmes de niveau 1.
+     */
     public void startPhase0() {
         for (HexView hexView : gameBoardController.getHexViews()) {
             Hex hex = hexView.getHex();
@@ -125,12 +169,15 @@ public class GameManager {
                     }
 
                 } else {
-                    ErrorPopup.showError("It isn't planet with system level 1 or this sector is initialy deployed");
+                    ErrorPopup.showError("Ce n'est pas une planète avec un niveau de système 1 ou ce secteur est déjà déployé.");
                 }
             });
         }
     }
 
+    /**
+     * Démarre la phase 1 du jeu, où chaque joueur choisit ses commandes.
+     */
     public void startPhase1() {
         playerCommands = new LinkedHashMap<>();
         for (Player player : game.getPlayers()) {
@@ -154,9 +201,12 @@ public class GameManager {
         nextPhase();
     }
 
+    /**
+     * Démarre la phase 2 du jeu, où les joueurs exécutent leurs commandes.
+     */
     private void startPhase2() {
         List<List<Player>> order = sortOrderOfExecution();
-        System.out.println("Phase 2 started");
+        System.out.println("Phase 2 commencée");
 
         for (int i = 0; i < order.size(); i++) {
             int commandIndex = i;
@@ -169,7 +219,7 @@ public class GameManager {
                 int finalI = i;
                 Platform.runLater(() -> {
                     String command = playerCommands.get(player).get(commandIndex);
-                    System.out.println("Player " + player.getName() + " executing command: " + command);
+                    System.out.println("Le joueur " + player.getName() + " exécute la commande: " + command);
 
                     switch (command) {
                         case "Expand":
@@ -179,11 +229,11 @@ public class GameManager {
                             executeExploreCommand(player, finalI, latch);
                             break;
                         case "Exterminate":
-                            System.out.println("Exterminate");
+                            System.out.println("Exterminer");
                             latch.countDown();
                             break;
                         default:
-                            System.err.println("Unknown command: " + command);
+                            System.err.println("Commande inconnue: " + command);
                             latch.countDown();
                     }
                 });
@@ -197,10 +247,13 @@ public class GameManager {
             }
         }
 
-        System.out.println("Phase 2 completed");
+        System.out.println("Phase 2 terminée");
         nextPhase();
     }
 
+    /**
+     * Démarre la phase 3 du jeu, où les joueurs choisissent un secteur et comptabilisent leur score.
+     */
     public void startPhase3() {
         this.sustainShips();
         gameBoardController.updateUiContent();
@@ -215,7 +268,7 @@ public class GameManager {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            System.out.println("Player: " + player.getName() + " has scored " + player.getScore());
+            System.out.println("Le joueur : " + player.getName() + " a marqué " + player.getScore());
             gameBoardController.updateUiContent();
         }
 
@@ -227,6 +280,14 @@ public class GameManager {
     }
 
     private void executeExpandCommand(Player player, int orderIndex, CountDownLatch phaseLatch) {
+        /**
+         * Executes the "Expand" command, allowing the player to expand their control by clicking on hexes.
+         * Once all expansions are done, the phase latch is counted down.
+         *
+         * @param player The player executing the command.
+         * @param orderIndex The index of the current order.
+         * @param phaseLatch The latch to signal the end of the phase.
+         */
         int amount = getCommandEffectiveness("Expand", orderIndex);
         CountDownLatch expandLatch = new CountDownLatch(amount);
 
@@ -248,6 +309,14 @@ public class GameManager {
     }
 
     private void executeExploreCommand(Player player, int orderIndex, CountDownLatch latch) {
+        /**
+         * Executes the "Explore" command, allowing the player to move ships to explore new hexes.
+         * Each move is validated, and the count of ships moved is tracked.
+         *
+         * @param player The player executing the command.
+         * @param orderIndex The index of the current order.
+         * @param latch The latch to signal when the exploration phase is complete.
+         */
         int amount = getCommandEffectiveness("Explore", orderIndex);
         System.out.println(amount);
         Map<ShipView, Integer> moveCounts = new HashMap<>();
@@ -300,6 +369,10 @@ public class GameManager {
     }
 
     private void sustainShips() {
+        /**
+         * Ensures that each hex doesn't contain more ships than it is allowed to hold.
+         * If there are too many ships, the excess ones are removed.
+         */
         for (HexView hexView : gameBoardController.getHexViews()) {
             Hex hex = hexView.getHex();
             int currentShipCount = hex.getShips().size();
@@ -329,6 +402,13 @@ public class GameManager {
     }
 
     private void chooseSector(Player player, CountDownLatch latch) {
+        /**
+         * Allows the player to choose a sector by clicking on hexes.
+         * If a sector hasn't been scored yet, it will be scored, and the player's score will be updated.
+         *
+         * @param player The player making the choice.
+         * @param latch The latch to signal when the player has finished choosing the sector.
+         */
         for (HexView hexView : gameBoardController.getHexViews()) {
             hexView.getPolygon().setOnMouseEntered(event -> {
                 Sector sector = hexView.getHex().getSector();
@@ -362,6 +442,12 @@ public class GameManager {
     }
 
     private void countScore(Sector sector, Player player) {
+        /**
+         * Updates the player's score based on the system level of the hexes in the given sector.
+         *
+         * @param sector The sector to score.
+         * @param player The player whose score will be updated.
+         */
         for (Hex hex : sector.getHexes()) {
             if (hex.isControlledBy(player)) {
                 player.setScore(player.getScore() + hex.getSystemLevel().ordinal());
@@ -370,6 +456,12 @@ public class GameManager {
     }
 
     private List<List<Player>> sortOrderOfExecution() {
+        /**
+         * Sorts the players based on the priority of their commands ("Expand", "Explore", "Exterminate").
+         * The list of players is sorted in the order of execution of their commands.
+         *
+         * @return A sorted list of players for each command index.
+         */
         List<String> commandPriority = Arrays.asList("Expand", "Explore", "Exterminate");
         List<List<Player>> finalOrder = new ArrayList<>();
 
@@ -407,6 +499,13 @@ public class GameManager {
     }
 
     public int getCommandEffectiveness(String commandName, int i) {
+        /**
+         * Determines the effectiveness of a command based on how many players are executing it.
+         *
+         * @param commandName The name of the command.
+         * @param i The index of the current order.
+         * @return The effectiveness of the command (1, 2, or 3).
+         */
         long expandCount = game.getPlayers().stream()
                 .map(p -> playerCommands.get(p).get(i))
                 .filter(command -> command.equals(commandName))
@@ -420,6 +519,12 @@ public class GameManager {
     }
 
     private void selectShipView(Player player) {
+        /**
+         * Allows the player to select a ship by clicking on it.
+         * If the selected ship belongs to the player, it is highlighted.
+         *
+         * @param player The player selecting a ship.
+         */
         for (ShipView shipView : gameBoardController.getShipViews()) {
             shipView.getBody().setOnMouseClicked(event -> {
                 if (shipView.getShip().isOwner(player)) {
@@ -436,4 +541,5 @@ public class GameManager {
             });
         }
     }
+
 }
