@@ -23,14 +23,6 @@ import java.util.Objects;
  * @version 1.0
  */
 public class HelloApplication extends Application {
-    /**
-     * Point d'entrée principal pour la partie JavaFX de Pocket Imperium.
-     * Cette méthode est appelée au lancement de l'application et configure
-     * la scène principale, les fichiers css et le titre de la fenêtre.
-     *
-     * @param stage La fenêtre (Stage) principale de l'application
-     * @throws IOException Si le fichier FXML n'a pas pu être chargé
-     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("view/main-menu.fxml"));

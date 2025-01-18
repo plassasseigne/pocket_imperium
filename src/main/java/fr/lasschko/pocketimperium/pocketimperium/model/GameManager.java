@@ -279,15 +279,15 @@ public class GameManager {
         addRound();
     }
 
+    /**
+     * Exécute la commande "Expand", qui permet au joueur d'ajouter de nouveaux vaisseaux sur les hexes qu'il possède.
+     * Une fois tous les vaisseaux ajoutés, le verrouillage de phase est décompté.
+     *
+     * @param player Le joueur qui exécute la commande.
+     * @param orderIndex L'index de l'ordre actuel.
+     * @param phaseLatch Le signal qui confirme la fin de la phase.
+     */
     private void executeExpandCommand(Player player, int orderIndex, CountDownLatch phaseLatch) {
-        /**
-         * Executes the "Expand" command, allowing the player to expand their control by clicking on hexes.
-         * Once all expansions are done, the phase latch is counted down.
-         *
-         * @param player The player executing the command.
-         * @param orderIndex The index of the current order.
-         * @param phaseLatch The latch to signal the end of the phase.
-         */
         int amount = getCommandEffectiveness("Expand", orderIndex);
         CountDownLatch expandLatch = new CountDownLatch(amount);
 
@@ -308,15 +308,15 @@ public class GameManager {
         }
     }
 
+    /**
+     * Exécute la commande "Explore", qui permet au joueur de déplacer ses vaisseaux sur de nouveaux hexes.
+     * Chaque mouvement est vérifié, et le compte des vaisseaux est mis à jour.
+     *
+     * @param player Le joueur qui exécute la commande.
+     * @param orderIndex L'index de l'ordre actuel.
+     * @param latch Le signal qui confirme la fin de la phase.
+     */
     private void executeExploreCommand(Player player, int orderIndex, CountDownLatch latch) {
-        /**
-         * Executes the "Explore" command, allowing the player to move ships to explore new hexes.
-         * Each move is validated, and the count of ships moved is tracked.
-         *
-         * @param player The player executing the command.
-         * @param orderIndex The index of the current order.
-         * @param latch The latch to signal when the exploration phase is complete.
-         */
         int amount = getCommandEffectiveness("Explore", orderIndex);
         System.out.println(amount);
         Map<ShipView, Integer> moveCounts = new HashMap<>();
@@ -368,11 +368,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * Garantit que chaque hexes ne contienne pas plus de vaisseaux qu'il n'est autorisé à en contenir.
+     * S'il y a trop de vaisseaux, ceux en excès sont supprimés.
+     */
     private void sustainShips() {
-        /**
-         * Ensures that each hex doesn't contain more ships than it is allowed to hold.
-         * If there are too many ships, the excess ones are removed.
-         */
         for (HexView hexView : gameBoardController.getHexViews()) {
             Hex hex = hexView.getHex();
             int currentShipCount = hex.getShips().size();
@@ -401,14 +401,14 @@ public class GameManager {
         }
     }
 
+    /**
+     * Permet au joueur de choisir un secteur en cliquant sur des hexagones.
+     * Si un secteur n'a pas encore été noté, il sera noté et le score du joueur sera mis à jour.
+     *
+     * @param player Le joueur qui fait le choix.
+     * @param latch Le signal qui se déclenche lorsque le joueur a terminé de choisir.
+     */
     private void chooseSector(Player player, CountDownLatch latch) {
-        /**
-         * Allows the player to choose a sector by clicking on hexes.
-         * If a sector hasn't been scored yet, it will be scored, and the player's score will be updated.
-         *
-         * @param player The player making the choice.
-         * @param latch The latch to signal when the player has finished choosing the sector.
-         */
         for (HexView hexView : gameBoardController.getHexViews()) {
             hexView.getPolygon().setOnMouseEntered(event -> {
                 Sector sector = hexView.getHex().getSector();
@@ -441,13 +441,13 @@ public class GameManager {
         }
     }
 
+    /**
+     * Met à jour le score du joueur en fonction du niveau du système des hexagones dans le secteur donné.
+     *
+     * @param sector Le secteur choisi.
+     * @param player Le joueur dont le score va évoluer.
+     */
     private void countScore(Sector sector, Player player) {
-        /**
-         * Updates the player's score based on the system level of the hexes in the given sector.
-         *
-         * @param sector The sector to score.
-         * @param player The player whose score will be updated.
-         */
         for (Hex hex : sector.getHexes()) {
             if (hex.isControlledBy(player)) {
                 player.setScore(player.getScore() + hex.getSystemLevel().ordinal());
@@ -455,13 +455,13 @@ public class GameManager {
         }
     }
 
+    /**
+     * Trie les joueurs en fonction de la priorité de leurs commandes ("Expand", "Explore", "Exterminate").
+     * La liste des joueurs est triée dans l'ordre d'exécution de leurs commandes.
+     *
+     * @return Une liste des joueurs pour chaque index de commandes.
+     */
     private List<List<Player>> sortOrderOfExecution() {
-        /**
-         * Sorts the players based on the priority of their commands ("Expand", "Explore", "Exterminate").
-         * The list of players is sorted in the order of execution of their commands.
-         *
-         * @return A sorted list of players for each command index.
-         */
         List<String> commandPriority = Arrays.asList("Expand", "Explore", "Exterminate");
         List<List<Player>> finalOrder = new ArrayList<>();
 
@@ -498,14 +498,14 @@ public class GameManager {
         return finalOrder;
     }
 
+    /**
+     * Détermine l'efficacité d'une commande en se basant sur le nombre de joueurs qui l'ont choisis.
+     *
+     * @param commandName Le nom de la commande.
+     * @param i L'index de l'ordre actuel.
+     * @return L'efficacité de la commande (1, 2, ou 3).
+     */
     public int getCommandEffectiveness(String commandName, int i) {
-        /**
-         * Determines the effectiveness of a command based on how many players are executing it.
-         *
-         * @param commandName The name of the command.
-         * @param i The index of the current order.
-         * @return The effectiveness of the command (1, 2, or 3).
-         */
         long expandCount = game.getPlayers().stream()
                 .map(p -> playerCommands.get(p).get(i))
                 .filter(command -> command.equals(commandName))
@@ -518,13 +518,13 @@ public class GameManager {
         };
     }
 
+    /**
+     * Permet au joueur de sélectionner un vaisseau en cliquant dessus.
+     * Si le vaisseau sélectionné appartient au joueur, il est mis en surbrillance.
+     *
+     * @param player Le joueur qui sélectionne le vaisseau.
+     */
     private void selectShipView(Player player) {
-        /**
-         * Allows the player to select a ship by clicking on it.
-         * If the selected ship belongs to the player, it is highlighted.
-         *
-         * @param player The player selecting a ship.
-         */
         for (ShipView shipView : gameBoardController.getShipViews()) {
             shipView.getBody().setOnMouseClicked(event -> {
                 if (shipView.getShip().isOwner(player)) {
@@ -541,5 +541,4 @@ public class GameManager {
             });
         }
     }
-
 }
